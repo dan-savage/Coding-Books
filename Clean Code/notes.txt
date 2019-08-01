@@ -1,0 +1,275 @@
+**********************************************
+*** Chapter 1 - Clean Code
+**********************************************
+- Quotes:
+	1) Elegant and Efficient
+	2) Clean Code should do one thing well
+	3) Is focussed
+	4) Each function, class, module, exposes a single minded attitude that remains undistracted from the surrounding details
+	5) Should read like prose
+	6) Never obscures the designers intent, but rather is full of crips anotations and straightforward lines of control
+	7) Clean code can be read and enhanced by another author
+	8) Has unit and acceptanace tests
+	9) Provides one way of doing things, instead of many ways
+   10) Minimal dependencies
+   11) Meaningful names (=> each routine you run turns out pretty much as expected)
+   12) Wrriten by somebody who cares, nothing you can think of would improve the code
+   13) Minimised number of entities (eg: classes)
+   14) No duplication (when the same thing is done over and over again in code, the idea in teh mind is not reprsented well in code)
+   15) Expresses all design ideas
+   16) Early building of simple abstractions
+   17) You can call it beautiufl code when the code looks like it was made for the problem
+
+TLDR; 1) Efficient and Elegant 2) Readable 3) Enhancable 4) Care 5) No duplication
+
+- We are constantly rereading the code we've just written, as we write more, at a ratio of 10:1
+- Boy Scout Rule: Leave the code cleaner than when you found it
+
+
+
+**********************************************
+*** Chapter 2 - Meaningful Names
+**********************************************
+- Use intention-revealing names; should answer 1) Why it exists 2) What it does 3) How it is used
+- If a name requires a comment, then the name does not reveal the intent
+- What kind of things are in parameters/variables, significance of indexes (set const with meaningful name rather than just an int), what would you do with the return
+- Make code explicit instead of implicit 
+- Use intention revealing functions eg: instead of if(array[4] === 0), if(cell.isFlagged()) <-- See which one is easier to read
+- Avoid disinformation: eg: Don't use accountsList to refer to a group of accounts unless the group of accounts is a List (even if the container is a list, still probably not a good idea to encode container type into the name)
+	Don't use variables names which have a predefined name in other languages e.g: 'hp' (looks good for health points) means something in unix 
+- Beware of variable names which only differ in small ways
+- Make meaningful distinctions; if names must be different, then they should also mean something different 
+	1) Number servies nameing is the opposite of this (e.g: array1, array2) <-- these are noninformative 
+	2) Avoid noise words (such as info, data, added numbers )
+	3) The word "variable" should never appear in a variable, the word "table" should never appear in a table name, how is "nameString" better than name? would nameString ever be a floating point? -> if so, breaks the rule of disinformation
+	4) Distinguish names in such a way that the reader knows what the differences offer
+- Use pronounceable words (easier to think and talk about them)
+- Use searchable names; eg: it is easier to search for INT_MAX than it is the number 7
+- Avoid encodings, avoid Hungarian Notation (impedements; make it harder to change name, type, and make it harder to read = easier to misread)
+- Don't use member prefixes, classes and funcitons should be small enough such that you don't need them (people learn to ignore them anyway)
+- Avoid mental mapping <- users shouldnt have to translate names. Clarity is king, use powers for good and write code that can be understood, not try and impress
+- Class names should be nouns, avoid verbs
+- Methods should have a verb or verb phrase "convertToSterling(salary)"
+- When constructors are overloaded, use static factory methods to better describe what you're doing 
+ 	e.g Complex fulcrumPoint = Complex.FromRealNumber(23.0); is better than Complex fulcrumPoint = new Complex(23.0);
+ 	This should be enforced by making the constructor private
+- Don't be cute
+- Pick one word per concept. e.g get, fetch, retrieve across different classes? Better to just use one across all
+- Use solution domain names (e.g: design patters, data structures, math terms)
+- Use problem domain names, if there isn't a solution domain name
+- Add meaningful context to a collection of variables. add a sensible prefix, or much better, add them to a small class 
+- Don't add gratuitis context: add no more context than is necessary
+- Short words are best, only if precise and informative 
+
+
+**********************************************
+*** Chapter 3 - Functions
+**********************************************
+- Very Small! <-- Hardly ever over 20 lines long
+- Each should be transparently small, and tell a story, and lead you to a compelling order of what function comes next
+- Blocks and Indenting; in loops, if statements etc, the blocks within should only be one line or so (normall a function call)
+	1) This keeps the enclosing function small, but also adds documentary value 
+	2) This also implies that functions should not be large enough to hold nested structures
+- DO ONE THING!!! <-- Functions should do one. They should do it well. They should do it only
+	1) Imagine starting a function name with "TO" (as in TO "blah blah blah", TO "set up webpage")
+- One level of abstraction per function
+	1) Statements in functions are all of the same level of abstraction!!
+- The stepdown rule <-- Readable code from top to bottom
+	1) Want to read a function as if it were a set of TO paragraphs 
+	2) By doing this, we keep functions doing only one thing at the level of abstraction
+	3) itll call many other functions, which implement details, at the desired level
+- Small switchstatements
+	1) buried in low implementation, and never repeated; this is done with polymorphism 
+	2) Bury in an AbstractFactory, so that nobody sees it, and multiple classes can use it
+	3) Can be tolerated if only used once, they create polymorphic objects, they are hidden behind an interface
+- Single Respobsibility Principle = violates this as there if there is more than one reason for the function to change
+- Open Closed Principle: Open for extension, but closed for modification (commonly performed by interfaces)
+- Use descriptive names: "you know you are using good code when the routines turns out as expected"
+	1) Don't be afraid of long descriptive names (better than a long comment)
+	2) Be consistent in naming 
+	3) Let names tell a story
+- Function arguments: Ideally should be none(niladic), then one(monadic), then two(diadic), any more should be avoided unless in special circumstances 
+	1) Harder to read a story with them included in functions
+	2) Hard from a testing point of view
+	3) Output arguments are even harder to understand 
+- Common Mondaic Forms (two reasons to use this type of function-argument structure)
+	1) You may be asking a question about an argument: 				e.g: booleanFileExists(myFile)
+	2) Operating on an argument, transforming it, and returning it. e.g: InputStream fileOpen(myFile)
+	3) These two forms should be used in consistent context, and described with distinction 
+	4) Another form is an event, this would have one argument, and no output argument. Should be made clear it's an event
+- Flag arguments are very ugly, avoid
+	1) Passing a boolaen to a funciton is bad practice and must be avoided.
+		a) It signifies that the function does more than one thing (if the flat is true, or if it is false)
+		b) It also complicates the signiture of the method
+- Diadics are not always bad, but perhaps try to reduce the use of them by making one of the paramters a class, and then calling the funciton but this time with a method that now only has a single parameter on it, OR make a new abstract class which takes one of the parameters in the function, and then has an attached method
+- Triads are confusing and should be avoided ideally
+- Argument objects <-- when a function seems to need two or three arguments, it is likely that some of those arguments ought to be wrapped in a class of thier own. This is becaused they likely deserve a named concept of their own
+- Arugment Lists <--- if the arugments are treated identically, the function can be monadic, diadic, etc, by reducing the input with a spread operator ...thing
+- Verbs and Keywords
+	1) Monadic write(name) <-- very expressive verb/noun pair. Even better writeField(name) <-- tells us that name is a type of field
+- Have no sideeffects
+	1) Sideeffects can cause temporal couplings, and means inadvertidly that some functions can only be called correctly when in a specific order
+	2) This can violate the do one thing priciple 
+- Output Arguments
+	1) appendFooter(s), causes you to look at function signiture (and therefore a double take), as is 's' the footer, or the thing thats appended? 
+	2) with no output argument, it could be used like this (in an OO style) report.appendFooter() , which is easier to read
+	3) In general, avoid autput arguments. If you need to change the state of something, have it change the state of the owning object
+- Command Query Separation
+	1) Functions should do something, or answer something, not both. Should change the state of an object, or give information about the object
+	2) To overcome this, separate the command from the query, so that no ambiguity can occur
+- Prefer Exceptions to Error Codes
+	1) This is because error codes violate the command query separation
+	2) Error codes will leard to a nested structure within the function, as they must be delt with immediately 
+	3) By using exceptions, the error can be separated from the happy path code, and be simplified
+- Extract try-catch blocks
+	1) They're ugly in their own right and confuse the structure of the code and they mix error processing with normal processing
+	2) So split funcitons into one that contains the error handeling logic, and others which handle the processing logic
+- Error Handeling should only do one thing, just like functions
+- Don't repeat yourself 
+- Structured Programming: functions should only have one entry and one return, no break or continue statements in a loop
+
+
+
+**********************************************
+*** Chapter 4 - Comments
+**********************************************
+- Don't comment bad code, rewrite it
+- Comments are at best, a necessary evil. Comments are to compensate our failures of not coding expressively enough
+- Think before writing a comment, and see if you can improve the code first
+- Comments don't make up for bad code. Spend time cleaning up bad code rather than writing comments for it
+- An example: 
+	* // Checking for benefits eligibiliy 
+	*if(age > 65 && status = true)
+	vs
+	* if(employee.isEligibleForBenefits())
+- Good to use with an expression of intent, or useful information (such as a regex)
+- Good to warn of consequences 
+- TODO Comments are also good
+- Don't use journal comments, we have source control for this
+- Avoid making noise with comments
+- Don't use a comment when you could just use a function or variable
+- If writing a comment, make sure you only write about code which is near
+- Don't add too much information to the comment itself
+
+
+
+**********************************************
+*** Chapter 5 - Formatting
+**********************************************
+- Code formatting is important, it adds to the communication of the code
+- Vertical formatting <--- smaller files are easier to understand than bigger ones
+- Newspaper format <--- read vertically, expect a clear headline, and a synopisis for if you want to read it
+- Use blank lines as seperators 
+- Use vertical density to signifiy where code is similar (to give an 'eyeful')
+- Vertical distance (similar^), you don't wanna be scrolling through a file trying to see how functions relate and operate
+	1) Concepts which are closely related should be kept vertically close to each other
+- Variables should be decalared as close to where they are used as possible
+	1) When functions are very short, local variables should be decalred at the top
+	2) OTHO Instance Variables should be decalred at the top of the file. In clean code, this should not affect the vertical distance as all the methods should use this instance
+- Dependent Functions, if one function depends on another, they should be vertically close
+- Conceptal Affinity: the stronger the affinity between pieces of code, the less vertical distance there should be
+- Vertical ordering: In general, we want the functions to call dependencies in a downward direction to create a nice flow (not true for C/C++/Pascal)
+- Use horizontal space density to empathesise how strongly things are related to each other OR to empathesise difference
+- Don't use horizontal alignment, it empathesises wrong things
+- Indentation to provide a hierachal structure 
+
+
+
+**********************************************
+*** Chapter 6 - Objects and Data Structures
+**********************************************
+- Data Abstraction
+	1) Use abstract interfaces instead of classes which can be more flexible when defining things
+	2) An interface can set an accesibility policy 
+	3) Ideally, you want to hide implementation
+	4) Hiding implementation is more than just making variables private, and using functions (getters and setters) to get to them
+	   A class rather, is supposed to expose abstract interfaces which allow its users to manipulate the essence of its data
+	5) We don't want to expose the details of our data, rather we want to express our data in abstract terms
+	6) Serious thought is needed to be put in to decide the best way an object contains data. Blithely Getters/Setters is the worst way
+- Example; the abstract point is better
+	public class Point {
+	 public double x;
+	 public double y;
+	}
+	public interface Point {
+	 double getX();
+	 double getY();
+	 void setCartesian(double x, double y);
+	 double getR();
+	 double getTheta();
+	 void setPolar(double r, double theta);
+	}
+	The interface is better, as it is more than just a datastructure 
+- Data/Object anti-symmetry 
+	1) Objects hide their data behind abstractions and expose functions to operate on that data
+	2) Datastructures expose their data and have no meaningful functions
+	3) Objects and datastructres are virtual opposites and this fact has far reachign implications 
+	4) Can be a good idea to split up data classes and object classes (with behaviour in the object class, and data in the other)
+- Dictomomy between objects and data structures 
+	Procedural Code:  (code using data structures) makes it easy to add new functions without
+	changing the existing data structures. OO code, on the other hand, makes it easy to add
+	new classes without changing existing functions.
+	**AND THE COMPLIMENT**
+	Procedural code makes it hard to add new data structures because all the functions must
+	change. OO code makes it hard to add new functions because all the classes must change.
+- The law of Demeter
+	1) Heuristic Law
+	2) An object should not know about the innards of an object that it manipulates
+	3) An object therefore should not expose its internal structure through accessors because to do so is to expose rather than hide its internal structure.
+	4) An being: 
+		f, a method of class C, should only be able to call the methods of
+		a) C
+		b) An object created by f
+		c) An object passed as a variable to f
+		d) An object held in the instance variable of C 
+- Hybrids of Objects and Datastructures 
+	1) they are the worst of both, avoid creating them
+	2) They have functions which do significant things, and have ways of making private variables public 
+	3) It's hard to add new functions and hard to add new data
+- Data Transfer Objects
+	1) Quintessential form of a Datastructure is a class with all public variables and no functions (= a DTO)
+	2) DTO useful for communicating with databases and sockets etc
+	3) Usually for carrying data between processes
+	4) Can be very heavy in data duplication and an antipattern if used incorrectly
+- Active Record
+	1) Similar to DTOs, but give navigational methods such as "serach, find"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
