@@ -1,0 +1,33 @@
+********************************************
+*** Chapter 6
+*** Props, State, and the Component Tree
+********************************************
+- Property Validation
+	1) React has automatic property validation built itn
+	2) Use the import Proptypes (import PropTypes from 'prop-types';)
+	3) Can be used to require props 
+- Default Props
+	1) ReactDocs --> "Default React Docs"
+	2) With "createClass" you can add a method called getDefaultProps() which will asign default values for unfilled properties
+- Custom Prop Validation
+- ES6 Classes and Stateless Functional Components
+	1) Default and validation on props for these components have a syntatical difference 
+- Refs
+	1) Refs are a feacture that allow components to talk to child components
+	2) A common example of where this is needed is when a child component takes user input
+	3) Commonly used with deconstructors (const { _title, _color } = this.refs)
+- Inverse Data Flow
+	1) Sometimes defined as "two way data binding"
+	2) Done by passing a callback to the components props 
+	3) Should be made optional, and should be checked when called, or even better, use Property Validation to check it
+- Refs Stateless Functional Components
+	1) Refs does not have a "this" component
+	2) Instead of a string attribute, set the refs with a callback function
+- React State Management
+	1) Very functional
+- Introducing Component State
+	1) Think of a star rating component
+	2) Break this down into each star being a component
+	3) If the star is selected, it will be given an added selected class
+	4) The star is a stateless functional component, you cannot use state here.
+	5) SF Components are meant to be children of more complex, stateful components
