@@ -1,0 +1,206 @@
+------------------------------------
+Introduction
+------------------------------------
+
+- Vagrant is a tool for building complete development environments, sandboxed in a virtual machine.
+- This lowers dev setup time, increases production parity, and makes computable resources disposable. 
+- Can create a VM on an OS of your choice
+- Modify the physical properties of the VM (RAM, CPUs, etc)
+- Establishes a network insterface
+- Can have shared folders
+	-> Due to these shared folders, you can continue developing on your own machine, whilst testing with Vangrant
+- Vangrat takes care of the entire lifecyle process of the VM
+
+------------------------------------
+Why Vangrant? 
+------------------------------------
+- The old ways of just using MySQL with a PHP backend have changed.
+	-> Many more ways now, such as lots of choice with Databases etc
+- The various combinations of these technologies quickly get out of hand.
+- Everything had to be installed manually
+- Configuration can be even harder than installlation
+- Multiple projects were impossible since many projects required different configurations
+- Harder to keep development teams in sync
+
+------------------------------------
+Tao of Vangrant
+------------------------------------
+- Developers can checkout any repo from version control, run vagrant up, and have a fully running development environment without human interaction
+- Developers continue to work on the comfort of their own machine
+- Vangrant acts as a workhorse that creates consistent and stable development environments.
+- Can be used easily with system automation by using scripts with Vangrant
+- Won't waste precious resources by not shutting down, as Vangrant takes care of these things 
+
+------------------------------------
+Alternatives
+------------------------------------
+- Why Vangrant is best, is that it forces a workflow
+- Vangrant now isn't tied to VirtualBox, and can now work with any vitulisation layer
+	-> Examples such as VMware, EC2
+- Another approahc is to use containers such as LXC or OpenVZ
+	-> Don't provide full virtulisation, but instead are super-powered islotated environments running the same kernel
+	-> Don't incur the same overhead as virtualisation, since they run just like any other process on your machine.
+	-> A downside of containers is that you can only run the same kernel that is running on you you host system 
+	-> Another downside, containers are highly specific to the host operating system
+		-> Therefore, container usage requires an entire team to use the same host operating system
+- The Cloud is another approach to ditch desktop vitrulisation
+
+
+------------------------------------
+Required to Install
+------------------------------------
+- VictualCloud
+	-> Recommended that you restard your computer aafter installing this to clean up kernel
+- Can be used without VirtualCloud remember
+- Look at the docs for more help : https://www.vagrantup.com/docs
+
+------------------------------------
+Your First Vangrant Machine
+------------------------------------
+- Almost very default configuration item can be overridden 
+- Use
+	-> $ vagrant up 
+		- This starts an isolated fully featured 640bit Ubuntu 12.04 virtual machine in the backgroud
+	-> $ vagrant ssh
+		- Run this to be dropped into the ssh console within the vm
+	-> $ exit (or control - d )
+		- This to exit the vm
+	-> $ vagrant destroy
+		- The vm will be deleted and any resources it consumed will be returned
+
+------------------------------------
+The Vagrantfile
+------------------------------------
+- Configured per project, where each project has its own isolated work environment
+- A simple text file
+- Description of whats needs to be fone to create the environment, such as RAM, OS, physical etc
+- This file should be placed in version control
+	-> This is to allow team memebers to check out the project and be able to run it easily
+- Rarely modified to remain stable
+- Use
+	-> $ vagrant init
+		- This is used to create the vagrant file
+		- read this to find examples
+- It's written in Ruby, no Ruby specific knowledge necessary 
+- The files themselves are portable
+
+------------------------------------
+V1 vs V2 Configuration
+------------------------------------
+- 2 Types of configuration
+
+------------------------------------
+Boxes
+------------------------------------
+- In addition to the VangrantFile, Vangrant also needs a box to start
+- Uses a base image and clones it rapidly to create a usable machine
+- This saves on resources
+
+------------------------------------
+Up
+------------------------------------
+- Use
+	-> $ vagrant up
+	- Used to build the vagrant environment
+	- Should take 30 secs only, as the box was alreayd downloaded
+	- The virtual machine is run headless, hence you won't see anything, but you should be able to see it in the processes
+		1) Vangrant creates a new VIrtualBox machine boased on the base image. Involves copying large virtual hard disk files and .:. can take some time
+		2) VirtualBox randomly generates a MAC address when craeting a new machine in or der to access the internet properly 
+		3) The visible name of the machine is set, virtualbox makes an unhelpful name, Vangrant alters it to make it helpful
+		4) Requires the metadata about shared folders
+		5) Manages the network insterfaces on the vm, so it first clears them, and then sets them up
+		6) Creates the metadata for the forwarded posts that VirtualBox will need
+		7) Vagrant boots the machine, this is down by signalling SSH available
+
+------------------------------------
+State
+------------------------------------
+- Use
+	-> $ vagrant status
+	- This gives the current machine status and some other helpful information
+
+------------------------------------
+SSH
+------------------------------------
+- Use
+	-> $ vagrant ssh
+	- Gives a full-fledged SSH prompt inside a cmopletely sandboxed virtual machine
+	- You can now do whatever you want in here
+
+
+------------------------------------
+Shared Filesystem
+------------------------------------
+- Vagrant supports setting up shared folders so that files and folders are synced to and from the VM
+- Lets uesrs edit files in their own editors 
+- Also lets you a place to store files that you don't want destroyed in vagrant destroy
+- By default, it shares the project directoy (the one with Vangratfile in)
+	-> This can be easily changed in the Vangrantfile
+	-> Three parameters /foo is the vagrant place, third is the relative path of the host machine
+	-> $ vagrant reload 
+	- Must be run to reconfigure the the guest machine
+
+------------------------------------
+Tear down
+------------------------------------
+- Machines can be destroyed, suspended, halted
+
+------------------------------------
+Provisioning
+------------------------------------
+
+------------------------------------
+Networking
+------------------------------------
+
+------------------------------------
+Modeling mulimachine clusters
+------------------------------------
+
+------------------------------------
+Boxes
+------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
