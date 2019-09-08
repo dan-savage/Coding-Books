@@ -1,3 +1,180 @@
+First Edition 2015
 **********************************************
-*** Chapter 1 - Getting Started
+*** Chapter 0 - Getting Started
+**********************************************
+- What it is 
+    1) Real time distributed search and analytics engine
+    2) Allows data to be explored and a scale never thought before possible
+    3) Allows full text search, structured search, analystics and all in combination
+    4) Used by wikipedia, github, the guardian etc etc
+    5) Also used by many startups, such as Datadog
+
+
+
+**********************************************
+*** Chapter 1 - You know, for search
+**********************************************
+- Elasticsearch is an open source search engine built on top of Apache Lunar 
+- Elasticsearch is written in Java, just like Apache Lunar, but it has a REST-ful API 
+- Can also be defined as
+    1) A realtime document store where every field is indexed
+    2) A distributed search engine with realtime analytics 
+    3) Capable of scaling to hundreds of servers and petabytes od data
+- Works right out of the box
+- Installing 
+    - Only need the most recent version of Java
+    - Can be downloaded and installed here: curl -L -O http://download.elasticsearch.org/PATH/TO/VERSION.zip 
+    - Marvel: Is the tool for active managing and monitoring tool for Elasticsearch (free for development use)
+    - Run elastic search with ./bin/elasticsearch and then curl 'http://localhost:9200/?pretty' to see soemehitn come back! 
+        -> if somthing comes back, that means the elasticsearch cluster is up and running
+    - Edit the elasticsearch cluster name in the elasticserach.yml file in the config/directory, and then restarting the elasticserach instance
+    - Can shutdown elasticsearch with a post request, or with ctrl-c 
+- Integration
+    - There are two APIs if you;re working with Java and elastic search
+        1) Node client: node client joins a non local cluster as a nondata node, and keeps track of where data is to forwards requests
+        2) Trandsport client: Used to send requests to remote clusters
+        -> both these java clients talk to the elasticsearch cluster over the elasticsearchtransport protocol on port 9300
+
+- REST-ful API with JSON over http
+    - An elasticsearch query conatins the same info as a http query
+        1) Appropriate HTTP verb/method
+        2) Protocol: http or https
+        3) Host name of the elasticsearch cluster
+        4) Port of the clutser (which defaults to 9200)
+        5) Query_String: any optional query string parameter (for example ?pretty will print the JSON response)
+        6) BODY: the JSON encoded request body, if it needs one
+
+- Document Orientated
+    - Objects are rarely simple lists, more likely complext structures which contain many diff types of objects (locations, arrays, dates, etc)
+        -> Trying to fit this into a schema for a relational database, often isn't a good fit 
+    - By being documnet orinetated, it stores and indexes entire documents (as well as the contents), to make the searchable
+    - In elasticsearch, you index, sort, and filter documents, not rows of columnar data
+    - Uses JSON as the serialised format for document data (standard of the NoSQL movement)
+
+- Employee example
+    -> Relational DB : Database -> Tables -> Rows -> Columns
+    -> Elasticsearch : Indicies -> Types -> Documents -> Fields 
+    - An elasticsearch cluster can contain multiple indicies 
+    - A RDBMS uses a b tree-index to lookup values, elasticsearch uses an inverted index to do the same
+    - the example of adding an Employee
+        -> index a document per employee which contains all the relevant details of a single employee
+        -> each document will be of type employee
+        -> that type will live in the megacorp index 
+        -> that index will live inside our elasticsearch cluster 
+    - this can all be done in a sinple post command 
+        -> PUT /megacorp/employee/1 {body}
+    - to get this data, it is a simple http request as well
+        -> GET /megacorp/employee/1 
+    
+- Search Lite 
+    - /_search can be added to the endpoint 
+    - /_search?q=surname:smith to search for somebody with the surname smith 
+    - search lite does have its limitations, use query DSL for a more complete querying 
+
+- query DSL
+    -  This is done by creating a json object with filter, query, parts to it
+        -> range is a keyword to filter in a range 
+    - Full text search 
+        -> query : match : "your text to match" 
+        -> the matches are returned and sorted on their relevance 
+        -> This can be taken to another level with the phrase search 
+            query : match_phrase : "your phrase to match"
+    - Highlighting fields in our search results is also possible by passing in the highlighting flag
+
+- Analysics 
+    - Elasticsearch allows the user to run aggregations on our search data 
+    - similar to groupby in SQL, but more powerful 
+    - done by passing in the parameter "aggs" 
+        -> will come back with thing such as the total hits etc on a query / rankings etc 
+    - possible to search things like...
+        -> average age of employees who share a particular interest, and display all of them by interest
+            and other aggregations (such as how many), and that is pretty mental ngl 
+
+- Distributed by nature 
+    - can scale to hundreds if not thousands of servers 
+    - if the search ran through a cluster contianing 100 nodes, or just one node, it would run exactly the same way
+    - elasticsearch tries to hide the complexity of distributed systems 
+        -> partitions documents into containers or shards which can be stored on single, or multiple nodes
+        -> Balancing those shards across the nodes in your cluster to spread load 
+        -> duplicating redundant copies of nodes to prevent data loss 
+        -> routing requests from nodes in a cluster, to nodes that have data 
+        -> seemlessly integrating new nodes as your cluster grows or redistributes shards to recover from node loss 
+
+**********************************************
+*** Chapter 2 - Life inside a cluster
+**********************************************
+- built to always be available and scale to your needs 
+- vertical scale has its limits, horizontal scale however... 
+    -> normal dbs requires a large overhall in horisontal scaling, es however is distributed, allowing muliple nodes by nature 
+- one node is a cluster is elected to be a masater node 
+    -> this node is incharge of managing cluster wide changes 
+    -> ins't involved in document searching
+        -> won't become a bottle kneck as traffic grows 
+- every node knows where any document exists, and can route traffic there 
+
+- cluster health 
+    -> many stats can be monited in a cluster, an importnant one is health 
+    -> GET /_cluster/heath 
+    -> has status fields of colors, dependent on primary and replica shards 
+
+etc....
+
+**********************************************
+*** Chapter 3 - Data in Data out
+**********************************************
+- when an object has been serialised into JSON, it has become a JSON Document 
+- elasticsearch is a distributed document store 
+    -> any node/cluster can retrieve a document as soon as it is stored by elasticsearch 
+        -> realtime
+- all data in every field is indexed by default 
+    -> every field has a dedicated inverted index for fast retrieval 
+    -> can use all of those inverted indexes in a query for lighting fast retrieval speeds 
+
+- Document Metadata
+    - index (where the document lives)
+        -> like the database in a RDMS
+        -> actually lives in a shard, but this is taken care of by es
+    - type (the class of the document)
+        -> every type has its own schema for mapping which defines the datastructure of the document 
+    - id (identifies the document)
+        -> needs to be combined with the index and type 
+- Retrieval
+    - curl -i -XGET http://localhost:9200/website/blog/124?pretty 
+        -> gets all information about a document
+    - curl -i -XHEAD http://localhost:9200/website/blog/123 
+        -> only gets the head
+        -> used to see if it esxists or not by the http code 
+- Updating 
+    - Documents in es are immutable, so if we want to update, we have to change the whole document 
+        -> this is done by reindexing a document 
+        -> this will increment the _index field of the document 
+        -> done with a post request
+    - Stages 
+        -> retrives json from old document
+        -> changes it
+        -> deletes the old document (in the background as you continue)
+        -> Indexes the new document 
+- Creating a new document 
+    - need to make sure when adding a document, recreating a new index and not overwriting an old one
+    - this can be done two ways, the with a query stirng on the url, or by using the /create endpoint
+- CRUD
+    -> this is done in general by using HTTP requests 
+- Conflicts 
+    -> Pesimistic concurrency control 
+        -> Done by the vast majority of RDMS 
+            -> Assumes a resource will wanna be updated by many things at once, so blocks access
+    -> Optimistic concurrency control
+        -> done by es
+            -> assumes conflicts are unlikely to happen
+            -> if a conflict does, the operation will fail
+                -> could be retried with fresh data, or reported to the user 
+- Elasticsearch is distributed, asynchronous, and concurrent 
+    -> uses the version key of each document to make sure these parallel changes happen
+- Can write your own custom logic for the API (when it isn't enough) is the script groovy
+- Can combine multiple requests into one request to make it faster 
+    -> Ideally wanna do a bulk search and use the bulk API
+    -> This can slow nodes down by taking up too much memory, but this can be optimised easiely (start by trying between 1000 and 5000 requests)
+
+**********************************************
+*** Chapter 4 - Distributed Document Store
 **********************************************
