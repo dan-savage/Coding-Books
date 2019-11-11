@@ -1,2 +1,98 @@
 What is Kybernetes
 - Protable, extensible, open-source platform for managing containerized workloads
+- History
+	- Traditional Development
+		- Applications were ran on physical servers, there was no way to define resource boundaries for applications in a physical server, and this caused resource allocation issues. 
+		- An example of an issue is, if multiple applications run on a physical server there can be instances where one application would take up most of the resources, and as a result, other applications would unserperform. 
+		- To fix this, you would run a different applicaiton on a different server, but this doesn't scale well.
+	- Virtualized Deployment era
+		- As a solution virtulisation was introdced, it allowed you to run multiple vms on a single physical server's CPU.
+		- Virtulization allows applications to be isolated between VMs, and provides a level of security as the information of one application cannot be freely accessed by another application. 
+		- Virtulization allows better utilization of resources in a physical server, and allows better scalabiility, since applications can be added or updated easily.
+		- Each VM is a full machine running all the components, including its own operating system, on top of the virtualised hardware. 
+	- Container Deployment era: 
+		- Containers are similar to Vms, but they have relaxed isolation propertes to share the Operating System among the applications. Therefore containers are considereed lightweight. 
+		- Similar to a VM, a container has its own filesystem, CPU, memoryh, process space, etc,etc
+		- As they are decoupled from the underlying infrastructure, they are portable across clubds and OS distros.
+		- Main Benefits include
+			- Agile Application creation: Increaed ease ease and efficiency of container image creation comparaed to VM image use
+			= Continuous Developement, integration and deployment: Provides for reliable and frequent container image build and deploymnet, with easy and quick rollback (due to immutablbility) 
+			= Dev and Ops separation of concerns: create application container images at build/release time, rather than deployment time, hence decoupling applications from infrastructure. 
+			- Environment consistency 
+			- Cloud and OS distribution portability
+			- Application-centric management: Raises the level of abstrction from running an OS on virtual hardware to running an application on an OS using logical resources.
+			- Loosely coupleled: applictions are broken into smaller, independent pieces and can be deployed and managaed dynamically
+			- Resource isolate, which gives predicatable application performance
+			- Strong resource utilisation
+- Why you need Kubernetes
+	- EG: In a prod env, you need to manage the containers that run the applications and ensure there is no downtime. For example, if a container foes down, another container eneds to start WOuldn't it be easier if this was handeled by the system. Thats what Kubertetes does! Kubertetes gives a resilient frameowrk which takes care of scaling, failover, deployment patterns etc etc.
+	- Service Discovery and Load Balaencing: 
+		Kubertese can expose a container using the DNS name or using their own IP address. If the traddic to a container is high, Kubernetes is able to load balance and distribute the netweok traffice fo that the deployment is stable.
+	- Storage Orchestration
+		Kubernetes allows you to automatically mount a storage system of your choice, such as loca, storages, public cloud providers, and more
+	- Automated rollouts and rollbacks
+		You can describe the desired state for your deployed containers sing Kubertnetes, and it can change the actual state to the desired state at a controlled rate. For exapmle you can automate Kubernetes to create new containers for your deployment, remove existing containers, and adopt all their resources to a new container. 
+	- Automatic bin packing
+		You provide Kubernetes with a cluster of nodes that it can use to run containerised tasks, you can tell Kubernetes how much CPU and RAM each container needs, Kubernetes can fit containers onto your nodes to make the best use of your resources
+	- Self healing
+		It will restart containers that fail, and replace containers/ kill which dont respond to user defined health chekcs
+	- Secret configuration management
+- What Kubernetes does not do..
+	- Does not limit types of application supported
+	- Does not deploy source code, and does not build application. CI/CD are deteremed by organisations
+	- Does not provide application0services such as middleware (databases, dataprocessing), although these can run in kubertetes
+	- Does not provide or mandate a configuration language systm.
+	- Tus not just an orchestration system, it elmiminates the need for orchestration. Orchestration is "the execution of a defined workflow", Kubernetes comprises a set of independent, composable, control processess, that continuously drive the currnet state toware the rpvoded desired state. The workflow doesn't matter.
+
+- Kubernetes Components
+	- When you deploy Kubernetes, you get a cluster
+	- A cluster is a set of machines, called nodes, that run containersed applications managed by Kubernetes, a cluster has at least one worker node, and at least one master node. 
+	- The worker nodes host the pods that are components of the application. The master nodes manage the worker nodes and the pods in the cluster. 
+	- Multuipler master nodes are used to provide a cluster with failover and high availability
+	
+	- Master Components
+		- Master components provide the cluster's control place. Master components make global decisions about the cluster (eg scheduling), and they detect and repond to cluster events
+		- They can be run on any machine in the cluster, However for simplicity, they are usually set up on the same machine 
+		- kube-apiserver:
+			- The API server is a compoonent of the Kubernetes control plane that exposes the Kubernetes API. The API server is the front end for the Kubernetes control place. 
+			- It is designed to scale horizontally 
+		- etcd
+			- This is the consistent and highlyavaiable key value store used as Kubernetes backing sstore for all cluster data
+			- if your cluster uses etcd, you need to have a backup plan for that data
+		- kube-scheduler
+			- Component on the master that watches newly created pods that hade no node assigned, that selectes a node fro them to run on
+		-kube-conroller-manager
+			- Component on the master that runs controllers
+			- Each conroller is a separate process, but to reduce complexity, they are all comppiled into a single binary and run in a single process
+			- Examples of controllers ( Node controller, replication contoller, endpoints controllers, serverice accounts  token controllers) 
+		- cloud-controller-manager
+			- Runs controllers which interact with the underlying cloud providesr.
+			- The cloud controller manageer binary is an alpha feature released in version 1.6
+			- This allows the cloud verndor's conde and the Kubernetees code to evolve independentally of each other. 
+	- Node Components
+		- kublet
+			- An agent that runs on each node in the cluster, it makes sure that containers are running in a pod
+			- The kubelet takes a set of PodSpecs that are provided through various mechanismms and ensures that the containers described in the PodSpecs are runns and healthy.
+		- kube-proxy
+			- A network proxy that runs on each node in your cluster, implemented the Kubernetes Service concept
+			- Mainitain entworks rules on nodes, These netwokr rules allow network communication to your pods from netweok sessions inside or outside your cluster
+		- Container RunsTime 
+			- This is the software that is responsible for running containers
+			- Docker, containerd, and any implementation of the Kubernetes Container Runtime Interface
+	- Addons
+		- DNS. Web UI dashboard, Container Resource Monitoring, CLuster-level logging
+- Nodes
+	- A node is a worker machine in Kubernetes, previously known as a minion.
+	- My be a VM or physical machine, depending on the cluster
+	- Each node containers the services necessay to run pods, and is managed by the masters components, 
+	- The services on a node include the container runtime, kubelet, kube-proxy
+	
+	- Node Status
+		- A node's status containers the following information: addersses, conditions, capacity anda allocation, info
+		- $ kubectl describe node <insert-node-name> 
+		- AddressesL HostName, ExternalIP, InternalIp
+		-Conditions: OutOfDisk, Ready, MemoryPressure, PIPPressure, DiskPressues, NetworkUnvaiable
+		- Capacity & Allocatable: Describes the resources avaiable on the nodeL CPU, mormoy etc, aand the maximum number of pods that can be scheduled onto a node
+		- Info : kernal version, docker version, os etc etc, this is all gatehred by Kubelet
+	- Management
+	
