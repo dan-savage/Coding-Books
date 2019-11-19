@@ -1,0 +1,217 @@
+2 Object Orienttabed Design
+--------------------------------------
+
+2.1 Goals Patterns and Principles
+	- Objects come from classes, which are a specification of teh data members that the object contains, as well as the member functinos.
+	- Each class presents to the outside world a consise and consistent view of the objects that are instance of this class, without going into too much detail, or giving others access to the inner workigs of the object.
+
+2.1.1 Object Orinetated Design Goals
+	- We want to acheive robustness, adaptibility, and reusablilllty.
+	* Robust
+		not only shuold a program give the correct output for all good input, it should also be able to handle bad input, or unexpected input which is not explicitly defined by the application.
+	*Adaptibility
+		Software designed in the past has to meet new changed conditions, should be able to evolve.
+	*Reusability
+		Code should be usable for different applications in different systems. 
+2.1.2 Object-Orientated Design Principles
+	- 3 main areas; Abstraction, Modularity, Encapsulation
+	- Abstraction
+		1) To distil a system into its most fundamental part, and describe these parts in a simple and recise language, typically naming and explaining functinolaity of a system
+		2) Applying the abstraction paradigm, leads to abstract data types
+		3) An abstract data type specifies what an object does, but not how it does it
+		4) In c++, the funcitonality of a data structure is expressed through a public interface (sort of the class's public member functions)
+		5) An ADT is realised by a concrete data structure, which is called a class in c++
+		6) A class defines the data stored, as well as the operations supported by it
+		7) Classes also specify how operations are perfored in the body of each function.
+		8) A C++ class is said to implement an interface, if its functions include all the functions declared in the interface.
+	- Encapsulation
+		1) Different components of a system should not reveal the internal details of their respective elements
+		2) Gives the programmer the freedom in implementing the details of a system
+		3) The only constraint on the programmer is to maintain the abstraction interface that the outsider sees.
+	- Modularity
+		1) Modern systems typically consist of several different components that must interact correctly in order for the entire system to work properly
+		2) Keeping these interactions working requres that these different comonents be well organised
+		3) This code structuring approach centeres around the concept of modulaity
+		4) Modularity refers to an organizing pricinpe for code in which different components of a software system are divided into separate functional units. 
+		5) The hieracal structre imposed by modularity helps to enable software reusability, this allows for software to be reused to solve different problems 
+		6) Ane xample given, think how an architect might reuse his design of a wall across houses
+2.1.3 Object-Orientated Design Patterns
+	- OOP facilities reusable, robust, and adaptable software
+	-- Good code requires effective use of object-orientted design techniques
+	- A design pattern is a solution to a typical design problem
+	- This pattern gives a template for a solution in an abstract way, to tackle concrete problems
+	- 2 main patters:
+		1) A patter for solving algorithm design problems
+		2) A pattern for solving software design problems
+
+
+2.2 Inheritance and Polymorphism
+2.2.1 Inheritance
+	- A technique for reusing code and organising code in a hieracal way for modularity is called inheritance
+	- This technique allows the design of generic classes, that can be specialised into more particular classes
+		- A generic class is also known as a super class, a base class, or a parent class
+	- Any class that specifies a extends a base class, doesn't need to give new implementation for a general functions, since it inheritcs them
+	- Member Functions
+		- :: <- this specifies what class's function we are calling
+	- Protected Members
+		- Child classes don't have access to private memebers of its parents class 
+		- Special assess privileges for derived classes can be provided by delcaring memebrs to be protected
+		= A protected member is apublic to all classes derived from thie one, but private to all others
+		- Protcted funcitons are commonnly used for utility functions, which derived classes might find useful 
+	- Constructors and Destructors
+		- Constructor called when a class object is created
+		- Classes are craeted base class first, and destroyed in the opposite order
+	- Static Binding
+		- When a child class is created from a base class, the child class becomes a subtype for the parent class, which means that the child class can stand in wherever the base class is acceptable.
+		- Due to static binding, the parents functions will be called when the child member functions are called, this behavior is due to static biding
+		- This is because the determining of whihc members funcitons to call is based on the object's declared type, not its actual type. 
+		- So if you have liek an array of pointers, and the pointers are pointing to a Parent class, then you set a parent pointer to a child, and call child's member ufnction, it will call the parent one.v
+		- Use the scope operator :: to pick which classes function to use
+	- Protected Members
+		- A protected member is public to all child classes from it, but are private to all other classes. 
+	- Dynamic Binding
+		- Static binding is done by default to dertmine whihc member function to call for a derived class
+		- The alternative is dynamic binding, oa object's content determine whihc member function is called
+		- To specify that a member function should use dynamic binding, the keyword "virtual" is added to the function's declaration
+		- The decision as to what funciton is called is done at runtime, and this is where the keyword "dynamic" comes in
+	- Virtual Destructors
+		- no such thing as virtual constructor, but virtual decontructors are very important 
+		- The appropriate destructor needs to be called, depending on the hierachy of the object 
+		- if the destructor is noncirtual, then the parent will get destroyed
+		- If a derived class has allocated memory dynamically, calling the wrong destructor would cause a memory leak
+	- Dynamic binding is important since it allows us to create an object, whose behavior depends on its contents, which is fundamental to polymorphism.
+
+2.2.2 Polymorphism
+	- Means of many forms
+	- In OOP, means the ability of a function to take different types
+	- Typically applied in c++ pointer variables
+	- In paticular a pointer declared to any class A, implies that said pointer, can also point to any derived class B, of A
+		- If both these classes have define a virtual function s
+		- Consider what happens when we invoke p->a()
+		- Since dynamic binding is used, if p pointer to B, then it invokes B::a
+		- B is said to override A
+		- Alternatiely, if p points to A, well then A::s is called
+	- A pointer variable which points ti a class object that has at least one virtual function is said to be polymorphic
+		- that is, p can take on many forms, depending on the specific class it is refferring to
+	- Inheritance, poloymorphis, and funciton overloading suppoer reusuable software
+	- Specialisation
+		- Imagine we have a class Dog, which has the functions drink n sniff. 
+		- If you specialise this class to Bloodhound, you woudnl't override drink, but you would override the sniff function
+		- Bloodhound specifies the base class function
+	- Extension
+		- Writing new functions which arent in the base class, but are needed
+		- Eg: Imagine extending dog for border collie, this might mean adding a "herding" function, as border collies have this and orther  dogs dont
+
+2.2.3 Examples of polymorphism 
+
+
+2.2.4 Muliple Inheritance and Class Casting
+	- Muliple and Restricted inheritance
+		- Althought MI can be useful, especially in defining interfaces, it inroduces a number of complexities ( like variables having the same name in base classes, guess it sort of breaks encapsulation) 
+		- There are three types of inheritace, public, protected and private
+		- Protected Inheritance: Fields in the parent class which are public, become protected in the child class
+		- In Pricate Inheritace: Fields in the parent class which are public, become private in the child case
+		- These aren't used so often
+	- Casting in an Inheritace Hierarchy
+		- An object can be viewed as being of various types, but it can be decalred as only one type 
+		- Therefore a variable's delccared type determines how it is used, and even determines how certain functions will act on it
+		- Enforcing that all variables be typed and the operations delcare the types they expect is called STRONG TYPING, which reduces bugs tbf 
+		- Nonetheless, sometimes we have to change the variables explicit type, and this is done by casting 
+		- the syntax for this is "dynamic_cast<desired_type>(expression)
+		- Dynamic casting can only be applied to polymorphic objects, that is, objects tht come from a class which have at least one virtual function 
+		- Dynamic casting is most often applied for casting pointers within the class hierachy
+		- If an illegal pointer cast is attempted for casting pointers within the class, the result is a null pointer, so its good to have null checks
+2.2.5 Interfaces and Abstract Classes
+	- For two obejcts to interact, they must "know" about each toher's member functions
+	- To enfore this, the OOPDP asks that classes specify the API or interface that their objects persent to other objects.	
+	- In the Abstract Data Type approach, an interface defining an ADT is specified as a type definition and a collection fo member functinos for this type, with arguments for each function being of a specified type (think like a Java interface) 
+	- An interface is a colletion of function declarations with no data and no bodies
+	- When a class implements an interface, it must implement all of the given member functions
+	- C++ doesn't have a formal way of implementing interfaces, but we have an informal way of implementing them 
+		-eg: A stack container, we can provice a minimal interface in the class definiction, with no filled out methods
+		- this isn't a valid class in c++ tho, its just a documentation of one
+	- Abstract Classes
+		- An abstract class in C++ is a class that is used only as a base class for inheritance, and can;t be actualyl instantiated
+		- To handle not filling in the function, we need to tell the compiler that the class is abstrat
+		- This is done by specifying that one or more memebrs of its functions are abstract, or pure virtual.
+		- A function is defined as being pure virtual by giving "=0" in place of its body 
+		- C++ then won't allow creation of a class which has one of more function bodies of type "=0", and these functions are called pure virtual
+	- Interfaces and Abstract Base Classes
+		- Use an abstract base class as an interface for an AbstractDataType, which can then be extended into a concrete defintion / class 
+		- 
+
+
+2.3 Templates
+	2.3.1 Function Templates
+		- Imagine you have a funciton which takes two ints, and returns the smallest one
+		- This is a bloody handy function! Wouldn't it be good if it worked for more types, liek longs and shorts?? 
+		- Each one of these functinos would require a fifferent declarations and definition, however, making many copies of the same function is error prone
+		- C++ provices an automatic mechanism, called the function template, to produce a generic function for an arbitraty type T
+		- A function template provices a well-defined pattern from which a concrete function mayb later be formally defined / instantiated
+		- You do this by placing "template <typename T>" above the function declatation
+		- The generics given have to be of the same type, if only one generic template ting is made.
+		- The compiler will just look at the object type give, and determine what function to finstatntinoalt
+	2.3.2 Class Templates	
+		- Classes can be templated, which is powerful, as it allows us to provice one datastructure for different types
+		- The Standard Template Library uses class templates extensively
+		- To instantiate a template class, we provice the type to the constructor in "<type>" format :) 
+
+2.4 Exceptions
+	2.4.1 Exception Objects
+		- In C++, exceptions are thrown by code that encounters some unexpected conditions
+		- This can happen at ocmpile and runtime
+		- A thrown expection is caugh by other code which handles the exception "somehow" or the program is terminated
+		- They are a relatively recent addition to C++, prior, the program usually just aborted at the source of the error, by having the function return some sort of special value
+		- Exceptions are much cleaner, for historical reason, the C++ Standard Library won't use exceptions, and use statuses or flags instead. 
+		- Exception types oftern form hierachies; eg: MathExceptionrepresents all mathematical errrors, then derive morespecific expections for particular conditions
+	2.4.2 Throwing and Catching Exceptions
+		- Exceptions are processed in the context of "try" ad "catch" blocks 
+		- A try block is a block of statements proceeded by the keyword try, there can be multiple catchblocks (mental i know, is it ? ) 
+		- a throw statement is used in the try statement to go into a given catch block
+	2.4.3 Exception Specification
+		- When we declare a function, we shodl also specify the exceptions it mught throw
+		- Lets user and coompiler what to expect 
+		- by doing this, we don't have to have a try-catch block around them
+		- also a function can have liek as many exceptions as it wants, its a good this to derive them/ link them from a base class
+		- You could aslo have a generic base class
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
+	
+
+
