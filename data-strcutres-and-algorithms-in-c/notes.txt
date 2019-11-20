@@ -176,9 +176,33 @@
 		- You could aslo have a generic base class
 	
 
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+3 Arrays, Linked Lists, and Recursion
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+3.1 Using Arrays
+	3.1.1 Storing Game Entries in an Array
+		- Storing objects in arrays is a common use for arrays
+		- Insertion
+			- The approach is to shift all the entries ot the arrays smaller than the index given, to the right 
+			- Similar with removal, you need to thrown an error if the index given is bigger than the size
+		- Sorting an Array
+			standard tbh
+	3.1.3 Two-Dimensional Arrays
+
+3.2 Singly Linked Lists
+	- Arrays are nice and simpmle for sotring things in a certain order
+	- They are not very adaptable (insertions, deletions, and resizing are hard) 
+	- A linked list is a collection of nodes that together form a linear ordering (follow the leader game) 
+	- if you put a const keyword after the function declaration in c++ it makes it illegal for that function to change a members value of that class
+	- a friend class is one that can acceess private and protected methods of the class it was declared in
+
+	3.2.2 Insertion to the Front of a SLL
 
 
 
+
+	
 
 
 
