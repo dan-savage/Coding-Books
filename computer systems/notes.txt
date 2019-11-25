@@ -1,0 +1,179 @@
+------------------------------------------
+1 A Tour of Computer Systems
+----------------------------------------
+1.1 Information is Bits
+A source program is a sequence of bits, each with the value of 0 or 1.
+This bits are organised into 8 bit chunks called bytes
+Each byte represents a text character in the program
+MOst systems yse ASCII standard to represetna a character, with a unique byte-sized integer
+All information in a system, including disck files, programs sotred in memory, user data stored in memory, and data transfered across a network, is represendted as a bunch of bits.
+
+1.2 Programs are translated by Other Programs into Different Forms
+High level (human readable form) into low level machine language instructions
+Machien language instructions are packaged in a form called an executable object program and sotred as a binary disck file
+The translation from source file to object file is performed by a compiler driver
+hello.c -> hello.i -> hello.s -> hello.o -> ./hello
+The phases are:
+1) Preprocessing phase
+The preprocessor (cpp) modifies the original C program according to directives which begin with the #.
+This means inserting the contends of #include<stdio.h> into the contents of hello.c
+2) Compilation phase
+The compiler translates the .i file into the .s code, which contains an assemly-language program.
+Each statement is an assembly-language programs, which exactly describes one low level machine language instruction in a standard tet form
+3) Assembly Phase
+Next, the assembler translates the .s file into machine language instructions, and pakcages them in a form known as a relocatable object program, and stores the result in the object file .o
+This is a binary file, whose bytes encode machine language instructions rather than characters
+4) Linking phase
+Linker mergers the linking and merging of other .o files which contain like outside functions (like printf)
+the result is the hello file whch is an executable object file that is ready ot be loaded into memory and executed by the system
+
+1.3 It pays to understand how compilation systems work
+1) Make my efficient code
+2) Fix linking errors
+3) Avoid security holes
+
+1.4 Processors Read and Interpret Instructions Stored in Memory
+The shell can then load and run the executable object file
+1.4.1 Hardware it uses to run this...
+1)Buses
+Running thorugh the system is a collection of electrical conduits called buses that carry bytes of information back and forth between components
+Buses are designed to transfer fixed sized chunks of bytes known as words
+The number of bytes in a word, varies across systes
+Most word sizes are of 4 bytes, or 8 bytes
+2) I/O Devices
+Connection to the external world
+EG: Mouse, Keyboard, Display, Disk Drive
+Each I/O device is conncted to a I/O bus by either a contraller or an adapter
+Controllers are childs, adapters are cards on the motherboard
+3) Main Memory
+The main memory is a temporary storage device that holds both a program and the data it manipulates while the processor is executing a program
+Main memory consists of a collection of dynamic random access memory (DRAM)
+Memory is organised as a linear array of bytes, each with its ow uniqe address starting at 0
+4) Processor
+The central processing unit, is the engine that interprest instructions sotred in the main memory
+At its core is a word siexed storage device known as a register, called the program counter
+At any point in time, the PC points at some machine lanauge instrcution in the main memory
+Examples of operations the CPU performs: 
+-Load: Copy a byte or a word from the main memory into a register, overwriting the previous contents of the register
+-Store: Copy a byte or a word from a register into a alocation in the main memory
+-Operate: Copy the contents of two registers to the ALU, perform an arithmetic opertaion on the two words, and store the result in the register, overwriting the contents of that register (ALU stands for arithmetic logic unit)
+-Jump: Extract a wrod from the instduction itself, and copy that word into the program counter.
+1.4.2 Running a Hello Program
+As we type the characters "./hello" from the keyboard, the shell reads each one into a registers, and stores it in memory
+After hitting enter, the shell compies the contents from the disk file containing hello, into the main memory
+Using Direct Memory Access, the data travels straight from the disk file into the main memory
+
+1.5 Caches Matter
+The system spends a lot of time moving information from one place to another
+Copuing slows down the real work of the pgraom
+System designers ideal goal is to make these copy operations runs as fast ass possible 
+There exist things called cache memories, that sere as temporary staing areas for information that the processor is liekly to need in the near future
+A cache on the processor chp holds tens of thousands of bytes and can be accessed nearly as fast as the register file
+Other larger caches can eb accessed with a special bus
+Caches are implemented with a hardware technology known as static random access memory
+By setting up caches to hold data that is likely to be accessed often, we can perform most memory operations using fast caches
+
+1.6 Storage Devices form a hierachy
+Sotragde devicessuch as caches and main memory are organised in a memory hierachy
+The register file occupies the top level in the hierarchy
+regs -> L1 cache SRAM -> L2 cache SRAM -> Main Memory DRAM -> Local Secondary Storage (like a disk) -> Remote Secondary storage, such as a web server 
+
+1.7 The operating system manages the hardware 
+The runnin gprogram doen't access the keyboard, diplsya, diskc, or main memory.
+Rather, the operating system provides these services
+The OS is a layer of software interposed between the application program and hardware
+The OS has two purposes 1) to protect the hardware from runaway applications
+2) To procies applications with simple and unifrom mechanises for manupldating ocmplilcated and often wildly different low level hardware devices
+This is donw by using the processor, virtual memory, and files
+1.7.1 Processes
+When you execute ./hello, the OS gives the illsion that the program is the only one running on the system
+the program seems to have exclusice use of both the processor, main memory, and the I/O devices
+The processor appears to execute instructinos in the prgram one after the other, without interruption
+The code and the data of the program appear to be the only objects in the systems memory
+The process is the operating systems abstraction for a running program
+Muliple processes can run concurrently on the same system, and each one appears to have exclusive use of the 
+1.7.2 Threads
+Although we normally think of a process having a single control flow, in modern systems, a process actually consists of muleiple execution units, called threads, each running in the context of the process and sharing the same code, and global data
+Threads are an increasingly important programming model, because of the requirement for concurrency in network servers, because it is easier to share data between multiple threas, than between multiple processes, and because threads and more efficient than processes
+Multithreading is also one way to make programs run faster when multiple processors are available
+1.7.3 Virtual Memory
+Virtual memory is an abstraction that provices each process with the illusion that it has exculsive use of the main memory
+Each process has the same uniform view of memory, which is known as its virtual address space
+1) Heap: The code and data aears are followed by the run-time hea[
+The heap expands and contracts dynamically at run time as a result of calls to C standard library routine such as malloc and free
+2) Shared Libraries, nead the middle of the address spaceis an area that holds the code and data for shared libraries such as the C standard library and the math library
+3) Stack: at the top of the users virtual address space is the user stack that the comiler uses to implement function calls, like the heap, the users stack expands and contracts dynamically during the execution of the program, in paritular, each time we call a function, the stack grows, each time we return from a function it contracts. 
+1.7.4 Files
+A file is a sequence of bytes, nothing more. 
+Every IO device is modeled as a file. 
+All input and output in a system is performed by reading and writing files, using a small set of system calls known as Unix I/O
+
+1.8 Systems communicate with Other Systems Using networks 
+In practice, modern systems are often linked to other systems by networks
+The network can be viewed as just another I/O deivce
+The system copies a sequeunce of bytes from the main memory to the network adapter, instead of just to the local disk drive
+
+1.9 Important Themes
+A system is more than just hardware, it is a colleciton of intertwined hardware and systems software that must cooperate in order to achieve the ultimate gocal of running application programs
+19.1 Concurreny and Parallelism
+Thread-Level Concurrency
+Building on the process abstarction, we are able to devise systems where multiple programs execute at the same time, learding to concurrency
+With threads, we can even have multiple control flows executing within a single process
+Sometimes this is simulatesd by having the processor rapidly swiitchingamong executing processes
+This is now done by something called hypethreadingt
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
