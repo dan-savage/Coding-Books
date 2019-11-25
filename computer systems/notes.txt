@@ -125,7 +125,23 @@ This is now done by something called hypethreadingt
 
 
 
+--------------------------------------------------------------------
+The Memory Hierarchy
+--------------------------------------------------------------------
 
+6.1 Storage Technologies
+6.1.1 Random Access Memory
+Random Accces Memory comes in two varieties, static and dynamic.
+Static RAM is daster, and significatly more expensive than Dynamic RAm
+SRAM is used for cache memroyes, both on and off the CPU chip.
+DRAM is sed for the main memory plus the frame buffer of the graphics stream.
+Static RAM
+SRAM stores each bit in bistable memory cell. Each cell is implemented with a six transistor circuit.
+Due to its bistable nature, an SRAM memory cell will retain its value indefinitely, as long as it is kept powered.
+Even when a distrbance such as electircal noise, the circuit will return to stable
+Synamic Ram stores each bit as a charge on a capacitor.
+The capacitor is very small.
+The DRAM is sensitive to any sort of disturbance
 
 
 
