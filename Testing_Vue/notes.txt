@@ -4,7 +4,81 @@ Testing in Vue.js
 
 Chapter 1
 -------------------------------
+Introduction to Testing Vue Applications 
 
+A good testing appraoch speeds up development, imporves code quality, and lismits the bugs in your app.
+A poor appraoch cripples a project
+
+We're doing this to show that an application ehaves correctly
+-> two appraoches, manually do testing . or automate testing
+
+End2End testing
+-----------------
+A user journey is a list of stps that a user can take through an application
+
+Problems with E2E tests:
+1) Thy are slow, and can end up taking hours to run 
+2) Debugging them can be hard, especially in CL CI platforms
+3) They often contain flaky tests, ones that fail everytime 
+
+Unit Test
+--------------
+Unit tests break down end2end tests, by testing functions from your code 
+they are good for spotting problems in detail quickly ygm? that vibe 
+Unit tests are also much faster to run 
+
+Every unit test in an ideal world would be deterministic 
+
+One big problem with unit tests, is that it makes it harder to refactor code
+They also only test individual parts of an application, not if the application works as a whole together
+They don't test interaction as it were
+
+Snapshot Testing
+-----------------
+Snapshot testing is much like the game Spot the Difference
+This is traditionally done by taking screenshots of the application
+Jest does this is a more modern way, where it captures the serialised JavScript which can then be compared to the DOM output coming form Vue Components
+
+
+Combining Test Types Effectively
+---------------------------------
+10% E2E
+30% Snapshot test
+60% Unit Tests
+
+Most should be unit tests
+
+Integration testing is not reccomended for Frontend code
+-> They're difficult ot define, writhe, and debug
+
+TDD
+---
+This is the pratice of writing a failing test before you write the source code
+Before you write code in a component, you write a test to make sure the component behaves correctly
+Red -> Green -> Refactor is the ideal TDD appraoch
+-> you write a fialing test, make the test pass, then refactor the code to make it more readable 
+
+This keeps the source code small, and fores you to think about component before you start
+
+General Approach
+-----------------
+1) Decide the compoents you need
+2) Write the unit test and source code for each component
+3) Style the components
+4) Add snapcshot tests for teh finished components 
+5) Test the code manually in the browser
+6) Write an end to end test
+
+Most apps don't benefit from 100% code coverage, they offer diminishing returns, and are too much effort
+------------------------------------------------------------------------------------------------------------
+
+Learning when not to test
+--------------------------
+The purpose of writing testes is to save time 
+If the project is stable and will last a long time, then you should write tests
+
+Testing a Hacker News Application
+----------------------------------
 
 
 
