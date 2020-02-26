@@ -95,4 +95,48 @@ What is Kybernetes
 		- Capacity & Allocatable: Describes the resources avaiable on the nodeL CPU, mormoy etc, aand the maximum number of pods that can be scheduled onto a node
 		- Info : kernal version, docker version, os etc etc, this is all gatehred by Kubelet
 	- Management
+		- Unlike pods and services, a node is not inherently craeted by Kubernetes, it is created externally by cloud providers.
+		- Therefore, when Kubernetes creates a node, it creates an object that represetns the node, after this, Kubernetes checks whether the node is valid or not
+	
+
+		- Node Controller
+			- The node controller is a Kubernetes master component which manages various aspects of nodes
+			- The node controller has multiple roles in a nodes life, the first is assigning a Classless Interdomain Roudting block to the node when it is registered.
+			- The second is keeping the node controllers' internal list of nodes up to date wiht the cloud providers list of available machines. When running a cloud environment, whever a node is unhealthy, the node controller asks the cloud provider if the VM is still available., if not, the node controller deletes the node from its list of nodes. 
+			- The third is monitoring the node's health. The node controller is responsible for updating the NodeReady condition of NodeStatus to ConditionUnknown when a node becomes unreachable. NodeStatus is the heartbeat of the node
+		- Selfregisteration of Nodes
+			- Wheen the kubelet flag is true, the kubelet will attempt to register itself with the API server. This is the preferred patter, used by most distors
+			- There are many options
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	

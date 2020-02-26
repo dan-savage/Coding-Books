@@ -1,0 +1,25 @@
+1.1 Why SciPy and NumPy
+- Basic operations including arrays, matricies, integration, differential equation solves and stats aren't in Python by default.
+- NumPy specialises in numerical processing thorugh multidimentinosl ndarrays, where arrays allow elelment by elements operations (broadcasting) 
+- This takes out the worries that usually mire quick programing
+- SciPy is built on the NumPy array framework and takes scientific programing ot another level
+
+1.3 Working with them
+- You can write scripts of python, or you can get involved interactively
+
+
+2.1 NumPy Arrays
+NumPy is the fundamental Python package for scientific computer
+N-Dimentional arrays, element by element operations, linear algebra, and the ability to wrap c++ code
+- In nomral python, the way to store data is in dictionarys and lists. However, its very inefficient to edit this data, as this has to be done iteratively, which is computationally inefficient in Python
+- The data storage object in python called ndarray
+- The ndarray object is similar to lists, but rather than being heighly flexible by storing different types of objects in one list, only the same type of element can be stored in each column. Python lists (in C python, the most common implementation), are just an array of pointers, and hence contain anything
+- With NumPy arrays, you can only store the same type of element
+- If you need linear algebra, then use matrix objects (like multupying arrays by each other)
+
+2.1.1 Array Creation
+
+
+
+
+np.save('filename.npy', data)

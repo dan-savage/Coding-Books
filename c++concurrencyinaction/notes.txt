@@ -1,0 +1,80 @@
+What is Concurrency?
+- Two or more seperate activities happeneing at the same time.
+- In computers, we mean it to be a single system performin multiple independedt activities in parallel, rather than sequentially. (basically multitasking)
+- With one processor, it can only perform one task at once, but it can switch between tasks many times pers second.
+- By donig a bit of a task, and then another, and then another, it appears that its actually doing many different tassks at once.
+- This is called task switching, which we call concurrency, since it happens so fast you dont notice
+- Computers with multuple processors (with more than one core on a single chip) are genuinely capable of running more than one task in parallel. This is called hardware concurrency.
+Its called a context switch when the core switches frim one task to another
+- IN order to perform a context switch, the OS has to save the CPU state and instruction pointer to the next task, work out which task it needs to go to next, and load that tasks CPU state, it might then have to potentillay load memory for that task into a cache, which can precent the CPU from executing further constructions, causing futer delay.
+-Hardware threads: the measure of how many independed tasks the hardware can genuinely run concurrently
+- Approaches to concurrency
+1) 2 developers working in different offices, they take a while to communicate between each other, resouces such as manuals have to be shared, but their work is peaceful and undistrubted
+2) 2 developers in the same office, its easy to communicate, and can share resources, but there may be issues sharing resources.
+In this each developer shares a thread, and each office represents a process.
+Each thread, is like a lightweight process, they operate individually of others, but all threads in a process share the same address space, and most of the data can be accessed directly from all threads, its harder to share memory between processes
+- If data is shared, theres less overhead, as the operating system has less bookkeeping to do, but then if the data is accessed by multiple threads at once, the programmer must ensure that every thread has the same view of the data
+- One process with multiple threads is considered better than many single threaded processes as the overhead of launching and communicating between processes is higher, depsite the potential problems arsigin from shared memroy
+Why use concouurency?
+1) Separation of concerns
+- Makes programs easier to run and test
+- Imagine a DVD player, if this was run by one thread, then the sound, images, listening to device input, all has to be managed by one thread, which is nonideal. By using multiple threading, these no longer has to be so closely intertwined
+- This can then give the illusion of responseness
+2) Performance
+Increased performance doesn't come from a single task faster, but from running multiple tasks in parallel
+Parallisation can be quite complicated
+
+Don't always use threading, sometimes the lack of output isn't worht the copmlication
+THreads are a limited resource, and this can consues the OS resources, and make the system as a whole run slower.
+Using too many threads can exhaust the available memory, or address space for a process, beacue each thread requires a separate stack space.
+This is a big big problem in a 32 bit process, wheres thers a 4GB limit in the available address space. If each thread has a 1MB stack (which is typical in most systems), then the address space would be used up with 4096 threads, without allowed for any space for code, static data, or heap data.
+64 bit systems don't have this diresct address-space limit, they still have finite resources, eventually this could become a problem
+IN these cases, thread pools can be used to provide optimisation.
+Each context switch takes time, and this time could be used for doing actual work, there comes a point where adding extra threads will reduce the performace 
+Normally only worht doing for performance critical parts of the application
+
+Concurrency and multiethreading in C++
+- Came in in C++11, C++1998 doesnt have it 
+- The abstraction penalty
+-> There are perfomance costs in using high level abstractions over low level abstractions, c++ provides both high level and low level abstractions. Hihg level abstraction, in some cases, can provideunused functionality
+- Too many threads competing for a mutex, will affect the application performance singnificantly, look for bottlenecks
+
+
+HOw to do it...
+#import<thread>
+needs its own funciton to run, each thread has to have an initial function, which is where the thread of execution beginsmain() <- this is the initial thread
+you make a thread object, which has a function as its initial function
+.join() casues the calling function, to wait for the new thread
+
+-----------------------------------------------------------------------------------------
+Managing Threads
+-----------------------------------------------------------------------------------------
+threads are started by constructin a std::thread object that speciies the task to run on that thread
+In the simplest case, that task is just a plain ordinary void returing function that takes no parameters
+This function runs on its own threa until it returnsm and then the thread stops
+std::thread works with any callable type, so you can pass it a funciton, a class, or whatever tbh
+you can even pass it llambda functions
+
+You need to wait to decide if you should wait for it to finish
+if you decide befer the std::threa object is destroyed, then your program is terminated
+You can get dangling pointers with threads
+a function shouldnt return whhile a thread still has access to local variables
+.join() clears up any storage associated with the thread
+.detach() and .join() need to be called before the thread object is destroyed
+RAII: Resource Aquisistion is Initialization
+its common to craete a class around a thread, make it a reference variable in the class, and have a deconstructor which ..joins() the thread
+
+When things are destructed, they are done so in the reverse order of creation.
+The thread is checked to see if it is joinable() before calling .join(). This is important, because join() can only be called only once for a given thread of execution,so it would therefore be a mistake to do so if the thread had already been joined
+You makr the copy constructor and copy assignment as delete, so that they are no generated by the compiler, copy and assugnment of such a thread object is dangerous, as it might outlive the scopeof the thread it was joining.
+
+calling detach() on a thread leaves the thread to run in the background, with no direct means of communicating with it.
+Its no longer possible to wait for that thread to complete, ownership and control and truly passed over the the C++ RunTime library, which ensures that the resources associated with the threa are correcly reclaimed when the thread exits
+Detached threads are calleddaemon threads, after the UNIX concept of a daemon process that runs in the backgdoun without any explicit user interface
+
+An exapmle of detched threads, are windows running in a background. Imagine word, is running multiple windows, Word is one thread, and the windows are many other threads within this word thread. Opening a new window, means passing the old window thread into detached, as we don't care when it finishes
+
+
+Passing arguments to a thread function
+By default, arguments into internal storage, where tehey can be accessed by the nely created thread of execution, even if the corresponding parameter in the tunction is expecting a reference
+-- got to page 26

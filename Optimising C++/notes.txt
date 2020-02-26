@@ -1,0 +1,474 @@
+iCosts of optimising
+- hard to write nice software, its what universities teach against
+- opposite of clean code 
+
+Choosing the optimal platform
+2.1 Choice of hardware platform
+- Less important than it used to be
+The distinctinos between RISC and CISC processors, between PCS mainframes 
+
+Graphics Accelerators
+- the cjoice of platform is influenced by the requiremens of the task in quwestion
+
+2.2 Choice of Microprocessor
+The benchmark performance of comppeting brachs of microprocessors are very similar 
+Processors with multiple cores are advantageous for applications that can be divided into multiple threads that run in parallel.
+Small lightweight processors with low power consumption are actually quite powerful and may be sufficient for less intensive applicainots
+
+x86 microprocessors can run in both 16-bit, 32-bit and 64-bit mode
+
+
+2.5 Choice of C++ compiler
+c++ comopilers are becoming moe and more complicated
+new features in the c++ language have also added to the complexity 
+1) Microsoft Visual Studio Comiler
+2) Gnu or Gcc
+3) Clang
+
+2.6 Choice of function libraries
+Some applications spend most of their execution time on executing library functions
+time consuimng library functions are usually:
+1) File input/output
+2) Graphics and sound processing
+3) Memoruy and string manipulation
+4) Mathematical functinos
+5) Encryption and data compression
+
+Standard libraries are not always fully optimised
+
+
+Drawbacks of C++
+
+Portability
+C++ is fully portable in the sense that the syntax is fully standardixed and supported on all major platforms
+C++ also allows direct access to hardware interfaces and system calls, and these are of course system specific.
+In order to facilitate porting between platforms, it is recommened to place the user interface and ogher system specific parts of the code in a separate module, and out the task specific part of the code, which supposedly is system-indepnedent in another module
+
+Development Time
+Use reusable classes and consistent modularity to develop quicker
+
+Security
+The most serious problem with C++ is security.
+C++ implementsations have no checking for array bound violations and invalid pointers
+It is necessary to adhere to certain practices to prevent such matters
+
+- user references instead of pointers, initalise pointers to zero, setting pointers to zero when objects they point to become invalid, avoid pointer arithmetic and pointer type casting
+Linkedlists and other data structures tupically user pointers may be replaced and more efficient with container class templates
+A missing check for a buffer overflow of input data is an error often exploited, overflowing a buffer means you can view information in other parts of the system
+To prevent such errors, use the STL library, however, the STL library often allocates memory in an inefficient way. It does it by dynamic memory allocation
+
+
+3 Finding the biggest time consumers
+3.1 How much is a clock cycle
+CPU is not quite related to time, but rather the speend of the CPU
+CPU is the reciprocal of the clock frequency
+
+3.2 User a profiler to find hotspots
+Before you optimse anything, you have to use a profiler on your system
+99% of the time is spend on innermost loop doing, or in reading input or output, or mathematical functinos
+optimise the parts of the code that matter the most
+
+Profiling methods:
+1) Instrumentation: The compiler inserts extra code at each functino call to count how many times the function is called and how much time it takes
+2) Debugging: The profiler inserts temporary debug breakpoints at every funciton or every code line
+3) Time based sapling, event based sampling 
+
+Dynamic linking and position independent code: dynamic is slower
+
+
+5 Choosing the optimal algorithm
+sorting, searching, mathematical calculations
+
+7 The Efficiency of different C++ constructs
+You gotta know how program code is translated into machine code and how the microprocessor handles this code
+
+Data Caching is important: data caching is poor if data is scattered randomly around in the memory. It is therefore important to understand how variables are stored. the storage principles are the same for variables, arrays, and objects
+
+Storage on the stack
+- variables and obejcts declared inside a function are stored on the stack
+- stack is first in, last out fashion
+- it is used for storing function return addresses , function paramaters, local variables, and for sainv registers that have to be restored before the functionr eturns 
+- everytime a function is called, it allocates the required amount of space on the stack for all these purposes
+- this memory space is freed twhen the function returns 
+- The net time a function is called, it can use the same space for the parameters of the new functino
+- The stack is the most efficient memroy space to store data in, becuse the same range of memory addresses is reused again and again
+This part of the memory is mirrored in the level01 data cache if there are no big arrays
+- The lession we can learn from this is that all variables and objects hould preferably be declared inside the funciton in which thye are used
+
+Global or Static storage
+Variables that are declared outside of  any function are called global variables
+They can be accessed from any function 
+Glibal variables are stored in the static part of the memory
+The static memory is also used for variables declared with the static keyword, for floating point constatncs, string constancs, array lists, switch statement ump tables, and virtual functio tables
+The static data area is usually divided into three parts:
+	1) Constatns that are never modified by the program, one for initialised variables that my be modified by the program, and one for unitialised variables which could be modified
+The advantage of static data is that it can be initalised to desired vales before the program starts
+The disadvantage is that the memory space is occupided theought the whole pgoram execution, even if the variable is aonly used in a small part of the program
+This makes data caching less efficient because the memory space cannot be reused for another purpose
+
+Do not make variables global if you can avoid it
+Gloable variables may be needed for communication ebtween different threads, but that is the only situation where they are unavoidable
+
+It is often preferable t declare a lookup table costatn
+The advantage of using const here is that the list oes not need to be initalised everytime the funciton is ccalled, the compiler likely put the values in static memory instead
+A static declaraion inside a function means that the variable or array has to be initalised for the first time the function is called, but not on later calls. This is inefficient, as the function then needs to check whether it has been called before
+all identical constants will be joined together in order to minimise the amount of cache space used for constatnts
+
+Register Storage
+A limited number of variables can be sotred in registers instad of the main memroy
+A register is a small pieve of memory inside the CPI used for temporary storage.
+Variables that are sotred in registers are accessed ver fast, all optimising compilers will automatically choose the most often used variables in a function for refister storage
+The same register can be used for multiple variables as long as their uses do not overlap
+Local variables are particulary suited for register storage, this is another reason for preferring local variables
+registers are limited, there are approx 6 integer registers avaiable for general purpose 32-bit x86, but 14 in 64-bit systems
+Floating point variables use a different kind of register, there are 8 floating point registers avaiable in 32 bit operating systems 
+
+Volatile
+The volatile keyword specifes that a variable can be changed by anothe thread
+This prevents the compiler from making optimisations that reply on the assymption that the variable always has the value it was assigned to previously in the code
+The effect of volatile makes sure that the variable is stored in memory rather than in a register and prevents optimisations on the variable, 
+Volatile does not mean atomic
+
+Thread local storage:
+most compilers can make thread local storage of static and global variables by using the keyword thread_local, __thread
+
+Dynamic Memory Allocation
+Dynamic memory allocation is does with the operations new and delete
+These operators and function consume a significant amount of time
+A part of memory called the heap is reserved for dynamic allocation
+The heap can easiily ebcfore fragmented
+The heap manager can spend a lot of time cleanin gup spaces that are no longer used ans earching for vacant spaces <-this is called garbage collection
+Objects that are allocated in sequence are not necessarilt stored in sequenti memroy, they can be scatted around at different plaecs when the heap has become gragmented, this makes data caching inefficient
+DMA alos tends to make the code more compilated and error-prone, the program has to keep pinters to all allocated objeccts, and keep track of when they are no longer used.
+If you don't deallocate objects on the heap, you get a memeoru leak
+Java uses dynami memory allocation for all objects, which is very inefficient 
+Car car(1); <- this makes an object on the stack. Car *car = new Car(1) <- would make an object on the heap
+
+Variables Declared Inside a Class
+- Variables decalred inside a class are stored in the order in which they appear in the class declaration
+- The type of storage is determined when the object of the class i decalred
+- An obect of a class, structure, or unioin can use any of the storage methods metioned above
+An object cannot be stored in a register, except for the simplest of cases, but its data memebrs can be copied into registers
+A calls member with the static modifier will be stored in static memeory and will have one and only one instance, non-static memebers of the same class will be stored with each instance of the class
+Storing variables in a class or a structure is a good way of making sure that varirables are used int ehs same part of the pgram, but more imporatnly, they are stored near earch other
+
+
+7.2 Integers variables and operators
+
+Integer Sizes
+Integeres can be different sizes, and they can be signed or unsigned
+The followeing table summarizes the different integer tpes avaiable
+char:8, short int: 16, int 32, long:64
+
+Signed vs Unsigned Ints
+No real speed diff, unless
+In division by a constatn, the unsigned is faster than signed
+Conversion to sloating point is faster with signed than with unsigned integers 
+overflow behaves differently on signed and unsigned variables
+conversion between the two is costless, it is simpley a matter of interpreting the same bits differently 
+
+Integer division speeds vary depending on the processsor used
+
+Speed difference between ++i and i++
+-> no diff in speed unless used in an expression
+array[++i] is slower than array[i++]
+this is because the availability of i is delayed for approx two clock cycles
+
+Enums are as efficient as integers, as they are integers
+
+
+Boolean Operands
+- if a condition in && / || is most likely, then put it last for && and first for ||
+- This is because if it is most likely first in an &&, then it will more likley have to be evaulated, and the second evaluated, so bear in mind predictibility
+
+Booleans are over determined
+All operators that have booleans as output can produce no other alue that 1 or 0, still check for other values
+its faster to use 0 or 1 instead, so that you can just use bitwise operators 
+
+Pointers vs References
+Pointers and references are equally ineffeicnet as they are effectiely doing the same thing
+The difference only comes in programng style
+
+Advantages of Pointers:
+pointers are more obivous than references
+pointers have more funcitonlaity that references, you can change where a pointer points to , and you can do arithmetic opertations with a pointer
+Advantages of References
+syntax is easier
+references are safer to yser than pinters becase in most cases they are ysure to void to a valid address
+
+the 'this' keyword is an implicit pointer
+all (nonstatic) variables and objects declared inside a function are stored on the stack and are infact addressed relative to the tack pointer
+
+Smart Pointers: behaves like a pointer, has the special feature that the object it points to is deleted when the pointer is deleted
+
+7.10 Arrays
+An array is impleted simply by storing the elements consecutiley in memeoy
+no information about the dimensions of the array is stored, this makes the use of arrays in C and C++ faster than in other pgoramming lanuages, but also less sade
+This sadety problem can be overcome by defined a container class that behaves like an array with bounds checking
+
+An array using the above template class is declared by specifying the type and size as template parameters
+
+7.11 Type conversions
+implicit
+c style 
+constructor style
+c++ casting operator
+
+Branches and Switch Statements
+The highspeed of modern microprocessors is obtained by using a pipline where instructions are fetched and decoded in several stages before they are executed
+-> This has one big problem. Whevenever the code has a branch, the microprocessor does not know in advance whihc of the two branches to feed into the pipline.
+If the wrong branch is fed into the pipeline, then the error is not detected untile a while later
+Microprocessors use branch prediciton to reduce this problem.
+They use advanced algorithms to solve this problem
+
+Switch statements are a type of branching
+They are most efficient when the case statements increment sequentially, as it can be implemented as a table of ump targets
+A switch statement with many labels that has values far from each toehr is inefficient because the compiler must convert it to a branch tree
+New processors are somtimes able to prefict a switch stateemnt if it follows a simple periodic pattern, or if it is correlated with preceding branches and the number of different targets is small
+The number off branches and switch statements shuold preferable be kept small in the critical part of a program, especially if the branches are poorly predictable 
+
+The target of branches and functino calls are saved in a special cache called the branch target buffer
+Contention in the branch target buffer can occur if a program 
+
+In some cases it is possible to replace a poorly predictable branch by a table lookup, for example
+a = b ? 1.5 : 2.6 is a branch and is slow, however, if you use a table
+const lokup[2] = { 2.6, 1.5}
+a = lookup[b]
+
+In some cases the comiler can automaticlaly replace a branch by a conditional move
+
+
+Loops
+
+The efficientcy of a loop depends on how well the microprocessor can predict the lool control branch
+A loop with a small and fixedd repeat count and no branches inside can be predicted perfectly
+The maximum loop count can b predicted depends on the proceessor
+nested loops are harder
+
+use loop unrolling (basically incremennt by different numbers, if your loop goes straight into a load of if stateemnts)
+it does take up more space in the code cache 
+
+
+Copying or clearing arrays
+it may not be optimal to use a loop for trivial tasks such as copying an array or setting an array to all zeroes
+copilers ofter automaticlaly do this
+
+
+
+
+7.14 Functions
+Function calls may slow down a program for the following reasons
+- The function call makes the microprocessor jump to a different code address and back again, this can take 4 clock cycles
+- The code cache works less efficiently if the code is fragmanted and in scattered memeory
+- Function paramteres are sotred on the stack, and it takes ime reading them again,
+- Extra time is needed for setting up a stack frame, saving and restoring registers, and possible save exception handling information
+- Each function call occupies space in the branch target buffer which can cause contentions after a while
+
+TOFIX
+- aoiv uneccesary functions
+- use inline function (basically expands a funciton body wherethe inline funciton is) 
+- Avoid nested funciton calls in the inner most loop
+- use macros instead of functions, thes are certian to be inlined (beware macro parameters are evaluated each time they are used) 
+
+page 49
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

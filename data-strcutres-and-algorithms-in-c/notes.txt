@@ -1,5 +1,9 @@
+Reverse : think stack
+duplicates or string signitures : hashmaps
+
+----------------------------------------------------------------------------------------------------------------------------------------
 2 Object Orienttabed Design
---------------------------------------
+----------------------------------------------------------------------------------------------------------
 
 2.1 Goals Patterns and Principles
 	- Objects come from classes, which are a specification of teh data members that the object contains, as well as the member functinos.
@@ -176,9 +180,9 @@
 		- You could aslo have a generic base class
 	
 
--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------
 3 Arrays, Linked Lists, and Recursion
--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------
 
 3.1 Using Arrays
 	3.1.1 Storing Game Entries in an Array
@@ -199,10 +203,294 @@
 
 	3.2.2 Insertion to the Front of a SLL
 
+----------------------------------------------------------------------------------------------------------------------------------------
+5 Stacks, Queues, Double Ended Queues
+----------------------------------------------------------------------------------------------------------------------------------------
+	5.1 Stacks
+	- Stack container: Last in first Out
+	- Objects can be inserted at anytime, but only the last object can be removed
+	- Internet Browsers store last visited address in browsers, Text editors undo moves are stored in a stack
+	- Push, Pop, Top, size(), empty
+	- Can be made in an array (vector), or in a generic linkedlist format (trade off between dynamic memory)
+	- easy to revese things (liek a vecotr) with a stack
+
+	5.2 Queues
+	- First in First Out
+	- enqueue = insert element at the rear of the queue
+	- dequeue = remove elemnt at the front of the queue
+	- front = returns, but don't remove fisrt element
+	- Can be made with a circular array (vector), or in a generic/circular linkedlist format (trade off between dynamic memory)
+	- Used to make a breadth first search of a binary tree 
+
+	5.3 Double Ended Queues
+	- Supports insertion and deletion at both the front and rear end of the queues
+	- This is sometimes called a deck
+	- Implemented with a doubley linkedlist 
+
+	(8.1) 5.4 Priority Queue 
+	- An abstract data type for storing a collection of prioritised elements that supports arbitrary insertion, but supposrts removal of elements in order of priority, that is, the element with first priority can be removed at any time. 
+	- This is fundamentally different from all position based structures previously mentioned
+	- Uses keys, which must fit the equality property (reflexive, antisymmetric, and transistive)
+	- A priority queue is a container of elements, each associated with a eky
+	- The key determines the priority
+		- insert(e) = insert the element e (with implicit associated key value)
+		- min() = return an element in the PQ with the smalled associated key valye
+		- removeMin = remove from the PQ the element min()
+	- More than one element can have the same key
+	- An examlpe of usuage coupld be on a certain flight being fully booked, there are some cancellations, the airline maintains a priority queue of stanby passengers hopeing to get a seat. Priority deteremined by the fare paid, the frequent flyer status, and the time when the passenger is inserted into the priority queue
+	- A priority queue can be implemented by using a linkedlist, but is more regulary implemented with a heap, which is likek a binary serahc tree
+	- Can be used to do a heap sort
 
 
 
+----------------------------------------------------------------------------------------------------------------------------------------
+7.1 Trees
+----------------------------------------------------------------------------------------------------------------------------------------
+- Nonlinear data structure 
+- Much faster sequential data structure than vectors or arrays for some algorithms 
+- Organise data in a hieracy 
 	
+	7.1.1 Tree Definitions and Properties
+	- Top element called the root
+	- A set of nodes storing elements in a parent child relationship
+	- It can be emptry, where there are no nodes
+	- Nodes are siblings if they have same parent
+	- A node is external if it has no children, else it is internal
+	- An edge, is a pair of nodes
+	- A path is a sequence of nodes such that any consecutive nodes form an edge
+	- Orederd if there is a llinear relationship between nodes such that we can search for them
+
+	7.1.2 Tree Functions
+	- Size, left, right, parent, content
+----------------------------------------------------------------------------------------------------------------------------------------
+7.2 Tree Traversal Alogrithms 
+----------------------------------------------------------------------------------------------------------------------------------------
+
+	7.2.1 Depth and height
+	- Depth is the number of ancestors of p, exclusing p itself
+	- Height is the maximum length of a path in the tree
+
+	7.2.2 Preorder Traversal
+	- Root of node is visited first, then its children are traversed recursively
+	- If the tree is ordered, then the subtrees are traveresed according to the ordedr of the children
+
+	7.2.3 Postorcer Traversal
+	- Opposite of preorder
+	- recursively traverses the subtrees rooted at the children of the root first, before visiting the node
+
+	7.2.4 Bredth First Search
+	- Searches all nodes on the same level at the same time, before progressing to the children
+	- This is done iteratively by using a queue
+
+----------------------------------------------------------------------------------------------------------------------------------------
+7.3 Binary Trees
+----------------------------------------------------------------------------------------------------------------------------------------
+- A binary tree is an ordered tree in which every node has at most two children
+- Each child is labeled as either left or right
+- a left child preceedes a right child in the ordereing of childres of a node
+- This can be used to work out arithmetic expressions, when the value of the expression are placed as the leafs on a node
+- Binary trees can be mde with a linkedlist, or indeed a vector
+	7.3.5 Vector 
+	- Done in a vector, by simpley numbering the nodes. 
+	- The numbering is done by a way called level numbering root = f(v) = 1, left leaf = 2f(u), right leaf = 2f(u) + 1
+	- Has a bad usuage of space, as some array indexes won't get used. but it is very efficient
+
+	Binary Search Tree
+	- elements on the left n right of are ordered
+
+	- Euler Tour
+		- Template function pattern is the name of the pattern used for the traversal methods mentioned
+
+	You can represent general trees with binary trees
+----------------------------------------------------------------------------------------------------------------------------------------
+8.3.1 Heaps
+----------------------------------------------------------------------------------------------------------------------------------------
+- A heap data strutue is a binary tree that stores elements with their associated keys at its nodes and satisfies two additional properties
+	1 a relational property defined in the terms of the way keys are stored in t
+	2 a structural property defined in terms of the nodes itself
+1- uses a heap order priority, in a heapa T, for every node v other than the root, the key associated with v is greater than or equal to the key associated with v's parent. The property used to sort each pair saved inside a node in the heap is called a comparator. 
+
+You IMPLEMENT A PRIORITY QUEUE WITH A HEAP
+
+
+----------------------------------------------------------------------------------------------------------------------------------------
+9.1 Maps
+----------------------------------------------------------------------------------------------------------------------------------------
+- An Absract data type which allows us to store elements so that they can be located quickily.
+- Typically additional information besides its serach key
+- Typically a map stores key-value pairs called entries (Composition Pattern Pair)
+- In addition, the map requires the keys to be unique (not in multimap
+- Defined as associative stores
+- Can find entries using both a key, and an iterator
+----------------------------------------------------------------------------------------------------------------------------------------
+9.2 HashTables
+----------------------------------------------------------------------------------------------------------------------------------------
+- Keys associated with values are thought of as addresses
+- Two major Components, bucket arrays, and a hashfunction
+	
+	9.2.1 Bucket Arary
+		- A bucket array for a hash table is an array A of size N, where each cell A is thought of as a bucket (a collection of key-value pairs). N is the capacity of the array
+		- If the buckets have single sole unique entires, then retrieval is o(1)
+		- However, space used is proportional to N, thus is N is too big, we have a waste of space, the second drawback, is that it requires keys to be within the range 1 - N  integers. this is not always the case
+	
+	9.2.2 Hash Functions
+		- A hashfunction maps each key in out map, to an integer in the range [0, bucket array capacity minus 1]
+		- Equipped with this, we can apply the bucket array method to arbitray keys
+		- Howver, if there are two or more keys with the same value, this will cause a COLLISION
+		- A good hashfunction minimises collisions, by distributing keys evenly thoughtout an array
+		- a hashfunction should give the probability of two different keys getting hashed to the same bucket = 1/array of buckets capacity
+		- For practical reasons, a hashfunction should be fast n easy to compute
+		- A hashfunction has two actions; mapping the key to an integer (the hashcode), and then mapping the hashcode to a range of indicies [0, bucketarray capacity]. This second part is called the compression function
+
+	9.2.3 Hash Codes
+		- All datatypes must be converted into an integer
+		- char, short, int, can all be cast into an int easily in c++ 
+		- long has twice the representation of an int
+			- don't cast long down to int, loses half the information given in original value
+			- This will cause more collisions .:. take all info into consideration
+			- Much better to break the component down and take the summation of it
+			- Better for floating points too, so we don't lose info
+		- Polynomial Hashes
+			- Summation described above is not good for charater strings
+			- Imagine converting chars to ASCII and then summing, suddenly, the word spot is now equal to stop, because have the same letters (unwanted collision)
+			- here, use a polynomial hash. This is a hashfunction, which takes the components of an object x, in an order, given as coeficcients to the summation function, this becomes a polynomial hash code.
+			- This usually gives a nice spread for English words
+		- Cyclic Shift Hash Codes
+			- Replaces polynomial hash funcitons, by giving a cyclic shift, of a partial sum by a certain number of bits
+		- Hashing floating points
+			- int and float are 32-bit quantities on most machines
+				- don't hash the same way, as would lose fractional part
+			- C++ offers an option of reinterprit cast to get round unrelated types
+			- Treats quantities as a sequaence of bits, and makes no attempt to intelligently convert the meaning of one quantity to another
+
+	9.2.4 Compression Functions
+	 	- hash code is not suitable for immediate use, as the hashcode > bucket arry
+	 	N = Array Capacity
+	 	- Division Method
+	 		h(k) = k mod N
+	 		- If we take N to be prime, this spreads out the distributed hashed values (eg: imagine dividing by 100, and 101)
+	 	- Multuply, Add, Divide Method (MAD)
+	 		- More spohisticated method of spreading hashcodes evently through hashbuckets
+	 		h(k) = ak + b mod N (where N is a prime number, a and b are nonnegative integers)
+
+	9.2.5 Collision - Handling Schemes
+		- HT: to take a bucket array, and a hash function, and use them to implement a map by storing each entry (key, value) pair in the bucket
+		- Collision is two distinct keys mapping to the same bucket
+
+		- Separate Chaining
+			- For each bucket, store a linkedlist inside the given bucket, this is fine if the collisions aren't too often
+			- This can take up a lot more space (think space time trade off between open addressing)
+			- Average of O(1), but if just one list, then this becomes o(n) <- this depends on the load factor (n / N)
+
+		- Open Addressing
+			- Separate chainignn good, but requires an auxially data structure
+			- However, open addressing will reassign values into other unused buckets in the array of bucket cells itself
+
+			Linear Probing
+			- If we insert an entry into an already occupied bucket, then we just try the next bucket in the list instead.
+			- This means, we have to alter our search strategy, to double check items are in the correct bucket
+			- Although this saves space, and is quite quick, it does lead to clustering fairly quickly as well.
+
+			Quadratic Probing
+			- Iteratively checking for free next buckets, but by squaring the distance between bucket places
+			- takes one step longer, but reducces clustering even more
+
+			Double Hashing
+			- If there is a collision, use another hashing function, to get another bucket, far away to reduce clustering
+			- This is a bit slower than the other two, but reduces clustering even more so
+
+
+	9.2.6 Load Factors
+		- To keep hashtables effective, the load factor needs to be kept minimal
+		- Load Factor = number of pairs to store / Number of buckets in hashtable array (its a ratio)
+			- Has to be super low for open addressing, but can be 0.9 for Separate Chaining
+
+----------------------------------------------------------------------------------------------------------------------------------------
+9.3 Ordered Maps
+----------------------------------------------------------------------------------------------------------------------------------------
+- For not onlny knowing the key value pair, but also the order entires in a map
+- Gives more funcitonality, but at a trade off
+	
+	9.3.1 Ordered Search Tables using Binary Search
+	- Need a sequential data strucutre
+	- Can't really store in a vector or so, as o(n) for worst case for searching for values
+	- However, we can use a Binary Search Tree: o(log n) for searching for pairs
+
+	9.3.2 Applications of Ordered Maps
+	- Maximal Pairs (if pushed, talk about flight entries in a database?)
+
+----------------------------------------------------------------------------------------------------------------------------------------
+9.4 Skip Lists
+----------------------------------------------------------------------------------------------------------------------------------------
+- Makes random choices in arranging the entries in such a way, that search and update times are o(log n) on average
+- Time compmlexity does not depend on the distribution of keys, instead it depends on the random number generator in the implementation of insertions
+- A skip list for a map consists of a series of lists, where each list stores a subset of the entires of M sorted by inscreasing keys plus entries w
+
+----------------------------------------------------------------------------------------------------------------------------------------
+9.5 Dictionaries
+----------------------------------------------------------------------------------------------------------------------------------------
+- Like a hashmap, however, dictionaries allow multiple entries to have the same key 
+- (like english dictionalty, multiple defition of the same word)
+- When you find an element, you find references (for an iterator), which reference all mathcing pairs
+
+
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+6.1 Vectors
+---------------------------------------------------------------------------------------------------------------------------------------------
+- The index is the number of elements before the given values
+- A collection of element sin a linear order is a list
+- A sequence/list that supports access to its elements via an index is a vector
+- Example implementation of the Abstract Data Type Vector
+	- An array that automatically resizes 
+	- The array we choose is sufficiently large such that we don't run out of memeory, but not too large that the array cannot be stored in contiguous memory
+	- Complexity
+		- To add elements to this array implemnetation, we need to 
+- If a class handles memeory, they need a constructor, destructor, and a copy constructor, and an assigment operator, to have robust memeory safety.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
