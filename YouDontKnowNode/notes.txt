@@ -1,0 +1,66 @@
+JSConf Iceland 2016
+Conference: https://www.youtube.com/watch?v=NLtL-EEclRc
+Code: https://github.com/azat-co/you-dont-know-node
+
+-----------------------------------------------------
+5 Core Features 
+-----------------------------------------------------
+
+-Input/Output is one of the most expensive type tasks for the CPU
+-Node has nonblocking IO, Python, Ruby, Java = Blocking IO
+-Event Loop comes from the Google Chrome V8 engine 
+-Nodejs event loop is like ordering a coffee in Starbucks, you order it, they ask for your name, 
+    you go to your table, then they call you when its ready
+-NOdejs is single threading
+-Still possible to write blocking code in Node.sj
+- NOde != Browser (no window, thereare modules, there is global, processes)
+
+-----------------------------------------------------
+(Event Emitters)
+-----------------------------------------------------
+- Event emitteres help with callback hell 
+- Can be placed in the code, more flexibility than callbacks, cleaner 
+
+---------------------------------------------------------
+How to handle large data (Stream)
+---------------------------------------------------------
+- Speed, too slow because it has to handle all of it, Buffer Limit of 1GB
+- Streams are abstractions which allow us to continually work with junks of data
+- 4 Types of streams: Writable, Readable, Duplex, Transform
+- HTTP requests and responses are streams, standard input and output, File read and writes
+
+----------------------------------------------------------
+Working with Binary data (Buffers)
+----------------------------------------------------------
+- To work with Binary data in nodejs you use a buffer
+- buf.toString(pass in the encoding here)
+- streaming a response is far far quicker (about 100 times quicker)
+    - If you know streams, you can become like a guru for node js lol 
+    https://github.com/workshopper/stream-adventure
+
+----------------------------------------------------------
+How to scale Node.js (Clusters)
+----------------------------------------------------------
+- Have one master  process
+    Have multiple worker processes 
+- The master process calls the worker process
+- Number of processes = number of CPUs 
+- library pm2 is good for vertical scaling
+- Methods to start processes:
+    1) ('child_process').spawn() - large data stream, no new V8 instance
+    2) ('child_process').fork()  - new V8 instance, multiple workers
+    3) ('child_process).exec() - buffer, async, all the data at once (no stream, smaller command)
+
+----------------------------------------------------------
+Async error handeling (Domain)
+----------------------------------------------------------
+- use process.on, process.exception (these are event emitter patterns)
+- Use domain-async.js, this can be used to wrap routes, middleware, etc, and can catch async errors
+
+----------------------------------------------------------
+C++ Addons
+----------------------------------------------------------
+- They can wrok together
+- You need a c++ file, create functions and expose the functions you write
+- You then craete a JSON file (binding.gyp) that tarets the cpp file
+- You need to install node-gyp and build
