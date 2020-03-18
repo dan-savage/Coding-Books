@@ -1,7 +1,7 @@
 JSConf Iceland 2016
 Conference: https://www.youtube.com/watch?v=NLtL-EEclRc
 Code: https://github.com/azat-co/you-dont-know-node
-
+Slides: http://bit.ly/1VJWpQK
 -----------------------------------------------------
 5 Core Features 
 -----------------------------------------------------
