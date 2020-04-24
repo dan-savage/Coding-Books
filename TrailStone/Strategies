@@ -1,0 +1,83 @@
+- Most succcess is gained from the use of trading strategies
+- Watching news, financial new, comodity newsletters
+- Finding the right market trading platform is also essential (IG)
+
+- You really need to have a trading plan, and know yourself, your risk limits
+    -> This is relyed upon in emotional situations
+    -> Also stuck to, so it can be reviewed and enhanced
+
+Strategies generally rely on the deployment 
+of technical analysis, which tracks price movements
+such as moving averages 
+
+Strategies can be used in conjunction of other strategies
+
+----------------------------
+Range Trading
+---------------------------- 
+- Built around Bolinger Bands
+    -> Type of statistical charting, volatility of an instrument over time
+- Range trading, buying at support leve, and then selling at the resistance
+    level, when the prices are at the top of the range
+- Bottoms and tops are heavily influenced by the trading supply and demand
+- Once the high maxes out, traders usually anticipate the fall
+
+----------------------------
+Breakout Trading
+----------------------------
+- Seeks to capatalise on short term movements
+- When a trader buys just as the level hits its support,
+    or sells, when the level is just about to his its resistance level
+- Can be used in conjunction with range trading if support and resistance levels are known
+- Philosophy, a market cannot continue its trend, without new highs or lows
+    this strategy works best, when trends are strong and long lastin
+- Performs poorly when the market is not able to establish strong trends
+
+- A breakout occurs when the price moves above resistance level, or below support level
+- Breakouts are subjective, as not all traders have the same resistance and support levels
+
+-Traders who initalise breakouts, often use Stop-Loss Orders, incase the breakout fails
+    - StopLoss Order: 
+        -> Buy shares in microsoft at $20
+        -> StopLoss Order could be put in at $18, whereby
+            -> All shares are sold at the current market price
+            -> If the price drops below $18 
+        - Pros:
+            -> Don't have to constatnly watch share price
+        - Negatives: 
+            -> Market fluctuations could activte the stop price
+            -> Have to be aware of the trend, factor in a sensible percentage swing
+            -> Setting a 5% stop loss on a stock that has a history of fluctuating 10%
+                is not sensible, will probably lose money on the commission
+        - Once you reach the stop price, your StopLoss order becomes a market order
+            and the sell price could be quite different to the stop price
+            - This is especially true for fast moving markets
+        - They're also used to lock in profits 
+
+--------------------------------------
+Fundamental Trading
+--------------------------------------
+- Rely on both technical and fundamental trading strategies
+- Based on idosynchratic market factors
+- Could be based off of breaking news of comodity 
+
+--------------------------------------
+Option Pricing:
+--------------------------------------
+    Risk Neutral Pricing
+        - The theory that drives analystical pricing 
+    Numerical Pricing
+        - Uses a computer to simulate many repitions of a simple procedure
+    Analystical Pricing
+        - Uses black scholaes
+
+    Discounted Cash Flow just doesnt work 
+
+--------------------------------------
+Trading Strategies
+--------------------------------------
+    Stradelling a trade
+        - When you know the share price is going to dramatically change
+            but not the direction
+        - Buying put and call options on a commodity, with deltas / delta neutrals
+        - As the underlying asset change price, one option becomes more valuable than the other
