@@ -8,3 +8,93 @@ Router makes packet forwarding decisinos based on IP addresses
     - Router knows where to send based on, static configuration, already connected to 
     said network, or a routing protocol that educates our router about where a network resides 
     - Theres a default route, which is a router doesn't have enough info, it just sends it out on that interface
+    - Basically just a packet forwarder
+
+2) Ethernet switches 
+    - Makes frame forwarding decision basked on destination MAC addresses 
+    - Not IP addresses, but MAC addresses 
+    - MAC address = Media Access Control address, a 48 bit address burned into the hardware by manufactoure
+    - The switch looks at the frames of the packets, and then learns from the ports where each mac address is 
+    - From this, it then constructs each MAC address table and intelligently forwards subsequent frames from those learned MAC addresses
+    - When a new pakcet comes into contact, the switch copies it, then floods it through the network, pings all devices on all interfaces
+    to see which one it belongs to and then keeps a record in the MAC address table of the corret destination
+    - The correct device will return trafic, and then an entry is made in the MAC address table, no more flooding
+
+3) Security Applicances
+    IPS: Intrusion Prevention System
+    -> Sits between inline with traffic and checks that traffic against a database of known threats 
+    -> Drops packets if it is a recorded threat 
+    Next Generation Firewall : Application Firewall
+    -> Deep packet inspection
+    -> Intrusion Prevention System
+    -> Encrypted traffic inspection
+        -> Does a really goof job at spotting encrypted traffic which can pass through the IPS (99% successrate)
+    -> This is one step beyond a stateful Firewall
+        -> Stateful firewall allows all traffic if it origintes from same network 
+    -> RTP protocol follows SIP protocol 
+    -> Layer 7 inspection allows you to see where traffic is going, and then can get analytics from it
+        -> "15% of our traffic is to social media sites" 
+
+4) Components 
+    -ADhoc Wireless Lan: Two laptops communicating between radio waves (limited, can't really scale)
+        -> move too far, and the radiowaves can't be understood
+        -> Can't do large transfers of files too easily
+    -Infrastructure Wireless LAN: Sort of thing you'd have in your home (a wireless router)
+        -> its given a name (Service Set Identifier)
+        -> BasicServiceSetIdentifier: Mac address of single access wireless access point
+    -Mesh Wireless LAN: A collection, not a single acces point
+    -Enterprise Wireless LAN: 
+        -> Wireless LAN contoller, and an Ethernet switch connected to wireless accesspoints
+
+5) Endpoints and Servers 
+    - Endpoint is known as a client
+    - Client - Server architecture
+    - Peer to Peer architecture
+        -> The clinets themselves are serving up resources 
+        -> Not as robust, the clinent might not have the best servers installed to handle traffic appropriately 
+
+6) Cisco DNA Center 
+    - Manages network through a graphical and programming interface 
+    - It allows:
+        1) Design of a network 
+        2) Can assign and apply policy through it
+        3) Can assing quiality of Service (assigning bandwidth)
+        4) Provisioning as well 
+        5) Has a path trace tool (ping, or tailnet section)
+            -> Gives a graphical representaiton of a netowrk 
+        6) Can give a history or what is going on in the network 
+
+6) Virtulising Devices 
+    - In the old days, if you want a server, like a linux one, and windows one, an oracle one, it needs it's own OS
+        -> Expensive to have all these resources, lots wasted etc
+    - Instead, you can consolidate these resources onto a virtulised server, which can run linux, microsoft, oracle 
+    - This virtual server, will have lots of resources and at least one ethernet card which connects it to the world
+    - It runs a hypervisor, which is software which allows it to craete, start, and stop virtual machines 
+        - Type 1: native hypervisor, runs directly on the server hardware 
+        - Type 2: Hosted hypervisor, runs in a tradional operating system (might run through mac computer or somehign)
+    - Virtulisation: 
+        Virtual NetworkInterfaceCard: Software associated with a unique MAC address used by a VM to send and receive packets 
+        A VNIC gets plugged into a virtual switch 
+        Can also run virtual firewalls, virtual load balancers 
+    - Virtulisation is all about consolidatin gresources on a single machine, and then running a hypervisor to set which machine is being used
+
+7) TCP vs UPD 
+    
+    - TCP 3 way handshake: (connection oreinetated protocol) 
+        1) a machine sends a SYN (synchronisation) message to a machine it wants to talk to
+        2) if the other machine wants to talk, it sends a syn-ack back 
+        3) first machine then sends an ack back to finish the threeway handshake
+    - UDP (connectionless protocol, no handshake ) <- doesn't etablish a session
+        1) No evidence data arrives, fire and forget protocol 
+    
+    Both protocols travel through IP packets
+    IP packets have source and destination addresses , and eithe rUDP or TCP payload
+    Well known port for HTTP traffic is 80 
+
+    - Well known ports 
+        FTP: 20/21
+        SSH: 22
+        DNS: 43
+        HTTP: 80
+        HTTPS: 443
+

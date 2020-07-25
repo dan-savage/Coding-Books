@@ -1,0 +1,58 @@
+A better git Workflow with Rebase
+    - Git merge vs git rebase 
+        * 2 Ways of merging a feature branch into a master branch, that has since had more commits
+
+    - Git Merge: 
+        * You wanna use "git merge --squash featurebranch" then commit again, so you group the commits of your feature branch into the master branch
+
+    - Git Rebase:
+        * rewinds the project a bit, if you wanna see the commits in the squash
+        * If you rebase a feature branch off a later master branch, it sets the base of the feature branch, as the new master branch
+        * This wil change the git log, youll see the initial commit change from original master commit, to latest master commit
+        * git rebase, looks at the latest commit both branches have in common (its between two branches)
+        * Its another way of merging, if you do it to each branch
+        * DO NOT REBASE COMMITS OUTSIDE OF YOUR REPO
+        * Rebasing has many perils 
+
+Advanced Git Tutorial
+
+    Commit by Hand
+        Git calls files blbds
+        When we store a file in git, it hashes the file into bytes
+        Blob files are stored in a tree object in Git. Blob is content, not a file
+            - think of the tree as a text file that lists a directory, blob blob contents filename of original blob
+        Commits can't store deltas, it points to trees, which point to blobs
+        You can't store the same blob twice, so we don't duplicate content
+        At the top of every commit, there is a single tree 
+        Everycommit object has a tree, which is the root of the object 
+        Look at the git architecture to become a better programmer, it has good lessons in it
+        - Oinion skin API 
+            -> Instead of makimg your API more complex as edge cases occur, have a subsection of detail inside the abstractino layer
+            -> Porcelin nice interface of high abstraction, plumbling level beneath it for more complex things
+            -> Top level works and you present it to the world and its great for 80% of cases, when edge case appears, pull back skin to plubing level
+        - Look at the index of a .git file
+            * You have Head
+                - head tells us what we think we're on right now, whats the current commit 
+            * You have refs
+                - inside refs, you have refs -> heads 
+                    refs heads are where branches are stored
+                    these are all files stored under refs heads
+        Cool Git Plumbing Commands Used
+            $ text | git hash-object  (What git add calls under the covers)
+            $ git update-index --add --cacheinfo *permissions* *hashcode* *textfile* (git staging update)
+            $ git write-tree 
+            $ git update-ref (updates with new branch i think)
+            $ -- (separates a command that can be meaninly used of a list of files from a flag/switch)
+            $ git rev-parse master (git rev-parse HEAD@{1})
+
+    Rebase 
+        When a merge happens, git looks at the diff between last commit of branch1, last commit of branch2, and the most recent common commit betwee both
+        Rebasing, is for when "I wish I branched right now, instead of in the past" 
+        It shifts commits in time, it makes the merge very trivial, we call it a fast forward merge 
+            -> When you then merge feature back into master, topologically, its not a graph anymore, but a straight line
+        All commits are local, when you make a mistake and its pushed, assume somebody ahs pulled and this mistake is now shared
+        You're master of the world when its all local
+        $ git reset
+            -> complex command, theres three flavours to it (soft, mixed, hard)
+            -> git reset --hard <<hash>> changes master, changes what it points to 
+                -> when parsing a hash, don't need to pass all of it, just enough to where its unique 
