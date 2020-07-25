@@ -1,0 +1,10 @@
+Components
+------------
+
+1) Routers
+Router makes packet forwarding decisinos based on IP addresses
+    - Maintains a routing table, which decides on where to send packets
+    - Based on the netowkr a packet needs to get to, the router sends it out of an interface
+    - Router knows where to send based on, static configuration, already connected to 
+    said network, or a routing protocol that educates our router about where a network resides 
+    - Theres a default route, which is a router doesn't have enough info, it just sends it out on that interface
