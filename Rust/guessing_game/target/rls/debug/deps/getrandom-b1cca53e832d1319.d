@@ -1,0 +1,11 @@
+/Users/dansavage/go/Coding-Books/Rust/guessing_game/target/rls/debug/deps/getrandom-b1cca53e832d1319.rmeta: /Users/dansavage/.cargo/registry/src/github.com-1ecc6299db9ec823/getrandom-0.2.5/src/lib.rs /Users/dansavage/.cargo/registry/src/github.com-1ecc6299db9ec823/getrandom-0.2.5/src/error.rs /Users/dansavage/.cargo/registry/src/github.com-1ecc6299db9ec823/getrandom-0.2.5/src/util.rs /Users/dansavage/.cargo/registry/src/github.com-1ecc6299db9ec823/getrandom-0.2.5/src/error_impls.rs /Users/dansavage/.cargo/registry/src/github.com-1ecc6299db9ec823/getrandom-0.2.5/src/util_libc.rs /Users/dansavage/.cargo/registry/src/github.com-1ecc6299db9ec823/getrandom-0.2.5/src/use_file.rs /Users/dansavage/.cargo/registry/src/github.com-1ecc6299db9ec823/getrandom-0.2.5/src/macos.rs
+
+/Users/dansavage/go/Coding-Books/Rust/guessing_game/target/rls/debug/deps/getrandom-b1cca53e832d1319.d: /Users/dansavage/.cargo/registry/src/github.com-1ecc6299db9ec823/getrandom-0.2.5/src/lib.rs /Users/dansavage/.cargo/registry/src/github.com-1ecc6299db9ec823/getrandom-0.2.5/src/error.rs /Users/dansavage/.cargo/registry/src/github.com-1ecc6299db9ec823/getrandom-0.2.5/src/util.rs /Users/dansavage/.cargo/registry/src/github.com-1ecc6299db9ec823/getrandom-0.2.5/src/error_impls.rs /Users/dansavage/.cargo/registry/src/github.com-1ecc6299db9ec823/getrandom-0.2.5/src/util_libc.rs /Users/dansavage/.cargo/registry/src/github.com-1ecc6299db9ec823/getrandom-0.2.5/src/use_file.rs /Users/dansavage/.cargo/registry/src/github.com-1ecc6299db9ec823/getrandom-0.2.5/src/macos.rs
+
+/Users/dansavage/.cargo/registry/src/github.com-1ecc6299db9ec823/getrandom-0.2.5/src/lib.rs:
+/Users/dansavage/.cargo/registry/src/github.com-1ecc6299db9ec823/getrandom-0.2.5/src/error.rs:
+/Users/dansavage/.cargo/registry/src/github.com-1ecc6299db9ec823/getrandom-0.2.5/src/util.rs:
+/Users/dansavage/.cargo/registry/src/github.com-1ecc6299db9ec823/getrandom-0.2.5/src/error_impls.rs:
+/Users/dansavage/.cargo/registry/src/github.com-1ecc6299db9ec823/getrandom-0.2.5/src/util_libc.rs:
+/Users/dansavage/.cargo/registry/src/github.com-1ecc6299db9ec823/getrandom-0.2.5/src/use_file.rs:
+/Users/dansavage/.cargo/registry/src/github.com-1ecc6299db9ec823/getrandom-0.2.5/src/macos.rs:
